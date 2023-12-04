@@ -5,7 +5,8 @@
 
 
 def np_elementwise(mat1, mat2):
-    """ function : perform element-wise addition, sbstraction, multiplication, division
+    """ function : perform element-wise addition, substraction,
+    multiplication, division
 
     Arguments:
         mat1 : first matrix
