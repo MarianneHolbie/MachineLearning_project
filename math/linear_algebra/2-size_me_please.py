@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """ function to calculate the shape of a matrix"""
 
+
 def matrix_shape(matrix):
     """ function : calculate the shape of a matrix
 
