@@ -34,7 +34,7 @@ def add_matrices2D(matrix1, matrix2):
     shape1 = matrix_shape(matrix1)
     shape2 = matrix_shape(matrix2)
 
-    if shape1 != shape2:
+    if (shape1 != shape2) or (matrix1 is None or matrix2 is None):
         return None
 
     new_matrix = []
