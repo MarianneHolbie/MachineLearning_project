@@ -29,10 +29,10 @@ def add_matrices2D(matrix1, matrix2):
 
     new_matrix = []
 
-    for i in range(shape1[0]):
+    for i in range(len(matrix1)):
         row_result = []
 
-        for j in range(shape1[1]):
+        for j in range(len(matrix1[0])):
             sum_element = matrix1[i][j] + matrix2[i][j]
 
             row_result.append(sum_element)
