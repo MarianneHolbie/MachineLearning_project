@@ -12,9 +12,9 @@ def np_cat(mat1, mat2, axis=0):
     Arguments:
         mat1 : first matrix
         mat2 : second matrix
-        axis: specific axis for concatenation (0 for vertical, 1 for horizontal )orientation 0= horizontal, 1= vertical
+        axis: specific axis for concatenation (0 vertical, 1 horizontal)
 
     Returns:
-       new numpay array
+       new numpy array
     """
     return np.concatenate((mat1, mat2), axis=axis)
