@@ -13,6 +13,10 @@ def mat_mul(mat1, mat2):
     Returns:
         new matrix
     """
+
+    if len(mat1[0]) != len(mat2):
+        return None
+
     # initialise matrix avec des 0
     new_matrix = [[0 for _ in range(len(mat2[0]))] for _ in range(len(mat1))]
 
