@@ -4,21 +4,7 @@
 """
 
 
-def matrix_shape(matrix):
-    """ function : calculate the shape of a matrix
-
-    Arguments:
-        matrix: matrix to calculate
-
-    Returns:
-        a list of integers
-    """
-    if not matrix or not isinstance(matrix, list):
-        return []
-
-    depth = matrix_shape(matrix[0])
-
-    return [len(matrix)] + depth
+matrix_shape = __import__('2-size_me_please').matrix_shape
 
 
 def add_matrices2D(matrix1, matrix2):
@@ -38,6 +24,8 @@ def add_matrices2D(matrix1, matrix2):
         return None
     elif matrix1 is None or matrix2 is None:
         return None
+    elif not matrix1 or not matrix2:
+        return []
 
     new_matrix = []
 
