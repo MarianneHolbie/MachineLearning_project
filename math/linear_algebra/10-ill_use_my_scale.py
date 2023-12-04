@@ -10,6 +10,6 @@ def np_shape(matrix):
         matrix : matrix
 
     Returns:
-        tuple of matrix'shape
+        tuple of matrix shape
     """
     return matrix.shape
