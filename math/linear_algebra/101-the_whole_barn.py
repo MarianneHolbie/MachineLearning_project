@@ -33,5 +33,8 @@ def add_matrices(mat1, mat2):
             return result
 
     else:
-        # if mat1 and mat2 are not list, they are int or float
-        return mat1 + mat2
+        try:
+            return mat1 + mat2
+        except TypeError:
+            # In case mat1 and mat2 are not compatible for addition
+            return None
