@@ -20,7 +20,8 @@ def add_matrices(mat1, mat2):
 
     # compare if mat1 and mat2 are list
     if isinstance(mat1, list):
-        if len(mat1) != len(mat2):
+        # if lengths are different or mat1 and mat2 are empty lists
+        if len(mat1) != len(mat2) or not mat1 or not mat2:
             return None
 
         # zip :  take 2 sequences return tuples of 2 elements
