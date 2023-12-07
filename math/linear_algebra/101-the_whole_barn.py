@@ -22,10 +22,14 @@ def add_matrices(mat1, mat2):
     if isinstance(mat1, list):
         # if lengths are different or mat1 and mat2 are empty lists
         if len(mat1) != len(mat2) or not mat1 or not mat2:
-            return []
+            return None
 
         # zip :  take 2 sequences return tuples of 2 elements
         result = [add_matrices(m1, m2) for m1, m2 in zip(mat1, mat2)]
+
+        # check if any element in result is None
+        if any(element is None for element in result):
+            return None
 
         # if result is a list of list with one element, return the element
         if len(result) == 1:
