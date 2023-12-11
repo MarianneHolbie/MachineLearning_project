@@ -11,5 +11,8 @@ def summation_i_squared(n):
         Returns:
             integer value
     """
-    # somme k^2 = n * (n+1) * (2*n+1)
-    return(n * (n + 1) * (2 * n + 1)) // 6
+    if n < 1 or not isinstance(n, int):
+        return None
+    else:
+        # somme k^2 = n * (n+1) * (2*n+1)
+        return(n * (n + 1) * (2 * n + 1)) // 6
