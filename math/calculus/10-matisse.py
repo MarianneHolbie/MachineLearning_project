@@ -16,7 +16,7 @@ def poly_derivative(poly):
         return None
     else:
         # calculate derivative of polynom
-        derivative_cuff = [n * cuff for n, cuff in enumerate(poly[1:0], start=1)]
+        derivative_cuff = [n * cuff for n, cuff in enumerate(poly[1:], start=1)]
 
         # special case derivative is 0
         if not derivative_cuff:
