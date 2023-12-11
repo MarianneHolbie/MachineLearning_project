@@ -27,9 +27,9 @@ def poly_integral(poly, C=0):
     else:
         # calculate integral of polynom
         # ∫xn dx = x^(n+1)/(n+1) + C
-        integral_cuff = [poly[idx] / (idx + 1) + float(C) for idx in range(0, len(poly))]
+        integral_cuff = [poly[idx] / (idx + 1) for idx in range(0, len(poly))]
 
-        # insert C
+        # insert C at the beginning
         integral_cuff.insert(0, float(C))
 
         # return whole number if integer, else float
