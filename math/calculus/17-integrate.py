@@ -33,4 +33,5 @@ def poly_integral(poly, C=0):
         integral_cuff.insert(0, float(C))
 
         # return whole number if integer, else float
-        return [float(cuff) if not cuff.is_integer() else int(cuff) for cuff in integral_cuff]
+        return [float(cuff) if not cuff.is_integer() else int(cuff)
+                for cuff in integral_cuff]
