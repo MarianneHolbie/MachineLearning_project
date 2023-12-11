@@ -12,7 +12,7 @@ def poly_derivative(poly):
         Returns:
             new list of coefficients representing the derivative of the polynomial
     """
-    if len(poly) < 0 or not isinstance(poly, list) or not all(isinstance(cuff, (int, float)) for cuff in poly):
+    if not isinstance(poly, list) or not all(isinstance(cuff, (int, float)) for cuff in poly):
         return None
     else:
         # calculate derivative of polynom
