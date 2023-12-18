@@ -57,3 +57,24 @@ class Poisson:
             # calculate pmf
             pmf = ((self.lambtha ** k) * (self.e ** (-self.lambtha))) / fk
             return pmf
+
+    def cdf(self, k):
+        """
+            Calculates the value of the CDF for a given number of “successes”
+
+            :param k: number of “successes”
+            :return: CDF value for k
+        """
+
+        # convert k to int in case it is a float
+        if not isinstance(k, int):
+            k = int(k)
+        # check k is positive
+        if k < 0:
+            return 0
+        else:
+            # calculate cdf
+            cdf = 0
+            for i in range(0, k + 1):
+                cdf += self.pmf(i)
+            return cdf
