@@ -34,3 +34,22 @@ class Exponential:
 
             # lambtha is the inverse of the mean of the data
             self.lambtha = 1 / (sum(data) / len(data))
+
+        # Euler's number
+        self.e = 2.7182818285
+
+    def pdf(self, x):
+        """
+            Calculates the value of the PMF for a given number of “successes”
+
+            :param x: time period
+            :return: PMF value for x
+        """
+
+        # check x is positive
+        if x < 0:
+            return 0
+        else:
+            # calculate pmf
+            pdf = self.lambtha * (self.e ** (-self.lambtha * x))
+            return pdf
