@@ -55,3 +55,35 @@ class Binomial:
         self.e = 2.7182818285
         # Pi's number
         self.pi = 3.1415926536
+
+    def factorial(self, n):
+        """
+            Accessory function to calculate factorial of a number
+        """
+        result = 1
+        for i in range(1, n + 1):
+            result *= i
+        return result
+
+    def pmf(self, k):
+        """
+            Calculates the value of the PMF for a given number of “successes”
+
+            :param k: number of “successes”
+            :return: PMF value for k
+        """
+
+        # convert k to int in case it is a float
+        if not isinstance(k, int):
+            k = int(k)
+        # check k is positive
+        if k < 0:
+            return 0
+        else:
+            # calculate binomial coeff
+            binomial_coeff = self.factorial(self.n) / \
+                (self.factorial(k) * self.factorial(self.n - k))
+            # calculate pmf
+            pmf = binomial_coeff * (self.p ** k) * \
+                ((1 - self.p) ** (self.n - k))
+            return pmf
