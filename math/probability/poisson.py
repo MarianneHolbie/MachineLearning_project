@@ -45,7 +45,7 @@ class Poisson:
             :return: PMF value for k
         """
 
-        # convert k to int in case it is float
+        # convert k to int in case it is a float
         if not isinstance(k, int):
             k = int(k)
         # check k is positive
