@@ -77,3 +77,19 @@ class Normal:
         pdf = 1 / (self.stddev * (2 * self.pi) ** (1 / 2)) * \
             self.e ** (- (x - self.mean) ** 2 / (2 * self.stddev ** 2))
         return pdf
+
+    def cdf(self, x):
+        """
+            Method to calculate CDF for a given x_value
+
+        :param x: given value
+        :return: CDF
+        """
+
+        # calculate erf : function error
+        erf = 2 / (self.pi ** (1 / 2)) * \
+            (x - (x ** 3) / 3 + (x ** 5) / 10 - (x ** 7) / 42 + (x ** 9) / 216)
+
+        # calculate cdf
+        cdf = 1 / 2 * (1 + erf / (2 ** (1 / 2)))
+        return cdf
