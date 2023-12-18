@@ -41,3 +41,28 @@ class Normal:
             for i in range(len(data)):
                 variance += (data[i] - self.mean) ** 2
             self.stddev = (variance / len(data)) ** (1 / 2)
+
+        # Euler's number
+        self.e = 2.7182818285
+        # Pi's number
+        self.pi = 3.1415926536
+
+    def z_score(self, x):
+        """
+            Calculates the z-score of a given x-value
+
+            :param x: given value
+            :return: z-score to normalize
+        """
+        z_score = (x - self.mean) / self.stddev
+        return z_score
+
+    def x_value(self, z):
+        """
+            Calculate the x_value of a given z_score
+
+        :param z: z_score
+        :return: x_value
+        """
+        x_value = self.mean + z * self.stddev
+        return x_value
