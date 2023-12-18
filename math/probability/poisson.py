@@ -24,3 +24,36 @@ class Poisson:
             if lambtha <= 0:
                 raise ValueError("lambtha must be a positive value")
             self.lambtha = float(lambtha)
+
+        # Euler's number
+        self.e = 2.7182818285
+
+    def factorial(self, n):
+        """
+            Accessory function to calculate factorial of a number
+        """
+        result = 1
+        for i in range(1, n + 1):
+            result *= i
+        return result
+
+    def pmf(self, k):
+        """
+            Calculates the value of the PMF for a given number of “successes”
+
+            :param k: number of “successes”
+            :return: PMF value for k
+        """
+
+        # convert k to int in case it is float
+        if not isinstance(k, int):
+            k = int(k)
+        # check k is positive
+        if k < 0:
+            return 0
+        else:
+            # calculate factorial of k
+            fk = self.factorial(k)
+            # calculate pmf
+            pmf = ((self.lambtha ** k) * (self.e ** (-self.lambtha))) / fk
+            return pmf
