@@ -13,14 +13,17 @@ class Exponential:
         """
             Class constructor
 
-            :data (list): List of the data to be used to estimate the distribution
-            :lambtha (float): Expected number of occurrences in a given time frame
+            :param data : List of the data to estimate the distribution
+            :param lambtha : Expected number of occurrences
 
         """
 
         if data is None:
             # Use the given lambtha
             self.lambtha = float(lambtha)
+            # check lambtha is positive
+            if self.lambtha <= 0:
+                raise ValueError("lambtha must be a positive value")
         else:
             # calculate lambtha from data
             if not isinstance(data, list):
@@ -31,7 +34,3 @@ class Exponential:
 
             # lambtha is the inverse of the mean of the data
             self.lambtha = 1 / (sum(data) / len(data))
-
-            # check lambtha is positive
-            if self.lambtha <= 0:
-                raise ValueError("lambtha must be a positive value")
