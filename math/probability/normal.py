@@ -88,9 +88,9 @@ class Normal:
 
         value = (x - self.mean) / (self.stddev * (2 ** 0.5))
         # calculate erf : function error with specific value
-        erf_series = value - (value ** 3) / 3 + (value ** 5) / 10 \
-                    - (value ** 7) / 42 + (value ** 9) / 216
-        erf = (2 / self.pi ** 0.5) * erf_series
+        erf_s = value - (value ** 3) / 3 + (value ** 5) / 10 \
+            - (value ** 7) / 42 + (value ** 9) / 216
+        erf = (2 / self.pi ** 0.5) * erf_s
 
         # calculate cdf
         cdf = 0.5 * (1 + erf)
