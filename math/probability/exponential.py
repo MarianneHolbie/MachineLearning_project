@@ -53,3 +53,19 @@ class Exponential:
             # calculate pmf
             pdf = self.lambtha * (self.e ** (-self.lambtha * x))
             return pdf
+
+    def cdf(self, x):
+        """
+            Calculates the value of the CDF for a given time period
+
+            :param x: time period
+            :return: CDF value for x
+        """
+
+        # check x is positive
+        if x < 0:
+            return 0
+        else:
+            # calculate cdf
+            cdf = 1 - (self.e ** (-self.lambtha * x))
+            return cdf
