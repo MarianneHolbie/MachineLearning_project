@@ -66,3 +66,14 @@ class Normal:
         """
         x_value = self.mean + z * self.stddev
         return x_value
+
+    def pdf(self, x):
+        """
+            Method to calculate PDF for a given x_value
+        :param x: given value
+        :return: PDF
+        """
+
+        pdf = 1 / (self.stddev * (2 * self.pi) ** (1 / 2)) * \
+            self.e ** (- (x - self.mean) ** 2 / (2 * self.stddev ** 2))
+        return pdf
