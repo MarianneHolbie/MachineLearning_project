@@ -75,7 +75,7 @@ class Normal:
         """
 
         pdf = 1 / (self.stddev * (2 * self.pi) ** (1 / 2)) * \
-              self.e ** (- (x - self.mean) ** 2 / (2 * self.stddev ** 2))
+            self.e ** (- (x - self.mean) ** 2 / (2 * self.stddev ** 2))
         return pdf
 
     def cdf(self, x):
@@ -89,7 +89,7 @@ class Normal:
         value = (x - self.mean) / (self.stddev * (2 ** 0.5))
         # calculate erf : function error with specific value
         erf_series = value - (value ** 3) / 3 + (value ** 5) / 10 \
-                     - (value ** 7) / 42 + (value ** 9) / 216
+                    - (value ** 7) / 42 + (value ** 9) / 216
         erf = (2 / self.pi ** 0.5) * erf_series
 
         # calculate cdf
