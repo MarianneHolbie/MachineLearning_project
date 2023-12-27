@@ -12,3 +12,13 @@ Introduction to plotting with `matplotlib` and `numpy`.
 ### [Calculus](math/calculus)
 
 Sum and product notation, derivative, integral and theirs rules.
+
+### [Probability](math/probability)
+
+Probability basics, conditional probability, probability distributions, and more.
+
+## [Supervised Learning](supervised_learning)
+
+### [Classification](supervised_learning/classification)
+
+Introduction to classification, logistic regression, and more.
