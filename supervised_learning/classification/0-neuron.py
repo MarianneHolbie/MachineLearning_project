@@ -24,7 +24,7 @@ class Neuron:
             raise ValueError("nx must be a positive integer")
 
         # public instance attributes
-        # W: Weights vector for neuron : initialized using random normal distribution
+        # W: Weights vector : initialized using random normal distribution
         self.W = np.random.normal(loc=0, scale=0.1, size=(1, nx))
         # b : bias & A activated output, both initialized to 0
         self.b = 0
