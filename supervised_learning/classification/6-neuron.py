@@ -166,4 +166,4 @@ class Neuron:
             # run evaluate
             result, cost = self.evaluate(X, Y)
 
-        return result, cost
+            return result, cost
