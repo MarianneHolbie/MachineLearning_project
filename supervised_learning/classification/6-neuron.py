@@ -163,7 +163,7 @@ class Neuron:
             self.gradient_descent(X, Y, alpha)
             # run forward propagation
             A = self.forward_prop(X)
-            # estimate cost
-            cost = self.cost(Y, A)
+            # run evaluate
+            result, cost = self.evaluate(X, Y)
 
-            return A, cost
+        return result, cost
