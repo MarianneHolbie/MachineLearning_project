@@ -159,7 +159,7 @@ class Neuron:
             raise ValueError("alpha must be positive")
 
         for i in range(iterations):
-            # run gradient descent for each
+            # run gradient descent
             self.gradient_descent(X, Y, alpha)
             # run forward propagation
             A = self.forward_prop(X)
