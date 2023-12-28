@@ -85,11 +85,10 @@ class NeuralNetwork:
         """
         return self.__b2
 
-
     @property
     def A2(self):
         """
-            The activated output neuron (prediciton)
+            The activated output neuron (prediction)
 
             :return: private value of A2
         """
