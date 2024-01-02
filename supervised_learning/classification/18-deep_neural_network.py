@@ -92,14 +92,14 @@ class DeepNeuralNetwork:
         for i in range(1, self.__L + 1):
             # first layer
             if i == 1:
-                W = self.__weights.get(f"W{i}")
-                b = self.__weights.get(f"b{i}")
+                W = self.__weights[f"W{i}"]
+                b = self.__weights[f"b{i}"]
                 # multiplication of weight and add bias
                 Z = np.matmul(W, X) + b
             else:  # next layers
-                W = self.__weights.get(f"W{i}")
-                b = self.__weights.get(f"b{i}")
-                X = self.__cache.get(f'A{i-1}')
+                W = self.__weights[f"W{i}"]
+                b = self.__weights[f"b{i}"]
+                X = self.__cache[f'A{i-1}']
                 Z = np.matmul(W, X) + b
 
             # activation function
