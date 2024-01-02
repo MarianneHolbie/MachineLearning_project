@@ -26,7 +26,8 @@ class DeepNeuralNetwork:
             raise ValueError("nx must be a positive integer")
         if not isinstance(layers, list) or layers == []:
             raise TypeError("layers must be a list of positive integers")
-        if not isinstance(layers, list) or not all(map(lambda x: isinstance(x, int) and x > 0, layers)):
+        if not isinstance(layers, list) or not all(map(lambda x: isinstance(x, int)
+                                                            and x > 0, layers)):
             raise TypeError("layers must be a list of positive integers")
 
         self.L = len(layers)
@@ -35,5 +36,6 @@ class DeepNeuralNetwork:
 
         # initialize parameters with He method
         for l in range(1, self.L):
-            self.weights["W" + str(l)] = np.random.randn(layers[l], layers[l-1]) * np.sqrt(2./layers[l-1])
+            self.weights["W" + str(l)] = (np.random.randn(layers[l], layers[l-1])
+                                          * np.sqrt(2./layers[l-1]))
             self.weights["b" + str(l)] = np.zeros((layers[l], 1))
