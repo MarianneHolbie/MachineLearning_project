@@ -35,14 +35,12 @@ class DeepNeuralNetwork:
         self.weights = {}
 
         # initialize parameters with He method
-        for l in range(1, self.L):
-            self.weights["W" + str(l)] = (np.random.randn(layers[l],
-                                                          layers[l - 1])
-                                          * np.sqrt(2. / layers[l - 1]))
-            self.weights["b" + str(l)] = np.zeros((layers[l], 1))
-
-        # Add last layer
-        self.weights["W" + str(self.L)] = (np.random.randn(1,
-                                                           layers[self.L - 1])
-                                           * np.sqrt(2. / layers[self.L - 1]))
-        self.weights["b" + str(self.L)] = np.zeros((1, 1))
+        for l in range(self.L):
+            if l == 0:
+                self.weights["W" + str(l+1)] = (np.random.randn(layers[l], nx)
+                                                * np.sqrt(2 / nx))
+            else:
+                self.weights["W" + str(l+1)] = (np.random.randn(layers[l],
+                                                                layers[l - 1])
+                                                * np.sqrt(2 / layers[l - 1]))
+            self.weights["b" + str(l+1)] = np.zeros((layers[l], 1))
