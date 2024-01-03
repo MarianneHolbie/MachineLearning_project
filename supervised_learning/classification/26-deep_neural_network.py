@@ -40,15 +40,15 @@ class DeepNeuralNetwork:
         # initialize parameters with He method
         for i in range(self.__L):
             if i == 0:
-                self.__weights["W" + str(i+1)] = (np.random.randn(layers[i],
-                                                                  nx)
-                                                  * np.sqrt(2 / nx))
+                self.__weights["W" + str(i + 1)] = (np.random.randn(layers[i],
+                                                                    nx)
+                                                    * np.sqrt(2 / nx))
             else:
-                self.__weights["W" + str(i+1)] = \
+                self.__weights["W" + str(i + 1)] = \
                     (np.random.randn(layers[i],
                                      layers[i - 1])
                      * np.sqrt(2 / layers[i - 1]))
-            self.__weights["b" + str(i+1)] = np.zeros((layers[i], 1))
+            self.__weights["b" + str(i + 1)] = np.zeros((layers[i], 1))
 
     @property
     def L(self):
@@ -92,22 +92,17 @@ class DeepNeuralNetwork:
             self.__cache['A0'] = X
 
         for i in range(1, self.__L + 1):
-            # first layer
-            if i == 1:
-                W = self.__weights["W{}".format(i)]
-                b = self.__weights["b{}".format(i)]
-                # multiplication of weight and add bias
-                Z = np.matmul(W, X) + b
-            else:  # next layers
-                W = self.__weights["W{}".format(i)]
-                b = self.__weights["b{}".format(i)]
-                X = self.__cache['A{}'.format(i-1)]
-                Z = np.matmul(W, X) + b
+            W = self.__weights["W{}".format(i)]
+            b = self.__weights["b{}".format(i)]
+
+            # multiplication of weight and add bias
+            Z = np.matmul(W, X) + b
 
             # activation function
             self.__cache["A{}".format(i)] = 1 / (1 + np.exp(-Z))
+            X = self.__cache['A{}'.format(i)]
 
-        return self.__cache["A{}".format(i)], self.__cache
+        return X, self.__cache
 
     def cost(self, Y, A):
         """
@@ -169,7 +164,6 @@ class DeepNeuralNetwork:
 
         # back loop to calculate previous
         for layer in range(self.L, 0, -1):
-
             # activation previous layer
             A_p = cache["A{}".format(layer - 1)]
 
