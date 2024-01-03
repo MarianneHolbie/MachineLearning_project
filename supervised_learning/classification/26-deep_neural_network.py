@@ -189,7 +189,8 @@ class DeepNeuralNetwork:
             # update dz_f with new value found
             dZ_f = dZ
 
-    def train(self, X, Y, iterations=5000, alpha=0.05, verbose=True, graph=True, step=100):
+    def train(self, X, Y, iterations=5000, alpha=0.05,
+              verbose=True, graph=True, step=100):
         """
             Method to train deep neural network
 
