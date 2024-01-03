@@ -230,18 +230,18 @@ class DeepNeuralNetwork:
             A, cache = self.forward_prop(X)
             # run gradient descent
             self.gradient_descent(Y, cache, alpha)
+            cost = self.cost(Y, A)
+
+            # store cost for graph
+            costs.append(cost)
+            count.append(i)
 
             # verbose TRUE, every step + first and last iteration
             if verbose and (i % step == 0 or i == 0 or i == iterations):
                 # run evaluate
-                cost = self.cost(Y, A)
-                print(f"Cost after {i} iterations: {cost}")
+                print("Cost after {} iterations: {}".format(i, cost))
 
-                # store cost for graph
-                costs.append(cost)
-                count.append(i)
-
-            # graph TRUE after training complete
+        # graph TRUE after training complete
         if graph:
             plt.plot(count, costs, 'b-')
             plt.xlabel('iteration')
