@@ -87,22 +87,25 @@ class DeepNeuralNetwork:
             :return: output neural network and cache
         """
 
+        A = X
         # store X in A0
         if 'A0' not in self.__cache:
             self.__cache['A0'] = X
 
         for i in range(1, self.__L + 1):
+            prev = A
             W = self.__weights["W{}".format(i)]
             b = self.__weights["b{}".format(i)]
 
             # multiplication of weight and add bias
-            Z = np.matmul(W, X) + b
+            Z = np.matmul(W, A) + b
 
             # activation function
-            self.__cache["A{}".format(i)] = 1 / (1 + np.exp(-Z))
+            A = 1 / (1 + np.exp(-Z))
+            self.__cache["A{}".format(i)] = A
             X = self.__cache['A{}'.format(i)]
 
-        return X, self.__cache
+        return A, self.cache
 
     def cost(self, Y, A):
         """
