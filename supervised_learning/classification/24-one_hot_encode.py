@@ -19,8 +19,13 @@ def one_hot_encode(Y, classes):
                  or None on failure
     """
 
+    if not isinstance(Y, np.ndarray) or len(Y.shape) !=1:
+        return None
+    if not isinstance(classes, int) or classes < np.max(Y) + 1:
+        return None
+
     # creating a 2D array filled with 0's
-    encoded_array = np.zeros((Y.size, classes), dtype=float)
+    encoded_array = np.zeros((classes, Y.size), dtype=float)
 
     # replacing 0 with a 1 at the index of the original array
     encoded_array[Y, np.arange(Y.size)] = 1
