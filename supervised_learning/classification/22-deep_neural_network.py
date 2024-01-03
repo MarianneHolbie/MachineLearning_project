@@ -208,10 +208,10 @@ class DeepNeuralNetwork:
         if alpha < 0:
             raise ValueError("alpha must be positive")
 
-        for i in range(iterations + 1):
+        for i in range(iterations):
             # run forward propagation
             self.forward_prop(X)
             # run gradient descent
-            self.gradient_descent(Y, self.__cache, alpha)
+            self.gradient_descent(Y, self.cache, alpha)
 
         return self.evaluate(X, Y)
