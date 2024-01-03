@@ -129,13 +129,13 @@ class DeepNeuralNetwork:
 
     def evaluate(self, X, Y):
         """
-                Method to evaluate the network's prediction
+            Method to evaluate the network's prediction
 
-                :param X: ndarray shape(nx,m) contains input data
-                :param Y: ndarray shape (1,m) correct labels
+            :param X: ndarray shape(nx,m) contains input data
+            :param Y: ndarray shape (1,m) correct labels
 
-                :return: network's prediction and cost of the network
-                """
+            :return: network's prediction and cost of the network
+        """
 
         # run forward propagation
         output, cache = self.forward_prop(X)
@@ -226,21 +226,19 @@ class DeepNeuralNetwork:
 
         for i in range(iterations + 1):
             # run forward propagation
-            prediction = self.forward_prop(X)[0]
+            A, cache = self.forward_prop(X)
             # run gradient descent
-            self.gradient_descent(Y, self.cache, alpha)
+            self.gradient_descent(Y, cache, alpha)
+            cost = self.cost(Y, A)
+            # store cost for graph
+            costs.append(cost)
+            count.append(i)
 
             # verbose TRUE, every step + first and last iteration
             if verbose and (i % step == 0 or i == 0 or i == iterations):
-                # run evaluate
-                cost = self.cost(Y, prediction)
                 print(f"Cost after {i} iterations: {cost}")
 
-                # store cost for graph
-                costs.append(cost)
-                count.append(i)
-
-            # graph TRUE after training complete
+        # graph TRUE after training complete
         if graph:
             plt.plot(count, costs, 'b-')
             plt.xlabel('iteration')
