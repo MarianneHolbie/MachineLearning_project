@@ -19,7 +19,7 @@ def one_hot_encode(Y, classes):
                  or None on failure
     """
 
-    if not isinstance(Y, np.ndarray) or len(Y.shape) !=1:
+    if not isinstance(Y, np.ndarray) or len(Y.shape) != 1:
         return None
     if not isinstance(classes, int) or classes < np.max(Y) + 1:
         return None
