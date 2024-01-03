@@ -17,7 +17,7 @@ def one_hot_decode(one_hot):
         :return: ndarray shape(m) containing numeric labels
                  or None on failure
     """
-    if not isinstance(one_hot, np.ndarray):
+    if not isinstance(one_hot, np.ndarray) or len(one_hot.shape) != 2:
         return None
     else:
         return np.argmax(one_hot, axis=0)
