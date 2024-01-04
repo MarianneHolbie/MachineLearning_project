@@ -155,7 +155,7 @@ class DeepNeuralNetwork:
             Method to evaluate the network's prediction
 
             :param X: ndarray shape(nx,m) contains input data
-            :param Y: ndarray shape (1,m) correct labels
+            :param Y: one-hot ndarray shape (classes,m)
 
             :return: network's prediction and cost of the network
         """
@@ -251,8 +251,11 @@ class DeepNeuralNetwork:
         for i in range(iterations + 1):
             # run forward propagation
             A, cache = self.forward_prop(X)
-            # run gradient descent
-            self.gradient_descent(Y, cache, alpha)
+
+            # run gradient descent for all iterations except the last one
+            if i != iterations:
+                self.gradient_descent(Y, self.cache, alpha)
+
             cost = self.cost(Y, A)
 
             # store cost for graph
