@@ -199,9 +199,16 @@ class DeepNeuralNetwork:
             db = (1 / m) * np.sum(dZ_f, axis=1, keepdims=True)
 
             # weight of current layer
-            A = self.weights['W{}'.format(layer)]
-            # derivate current layer
-            dZ = np.matmul(A.T, dZ_f) * A_p * (1 - A_p)
+            W_key = "W{}".format(layer)
+            A = self.weights[W_key]
+
+            if layer > 1:
+                if self.activation == 'sig':
+                    dZ = np.matmul(A.T, dZ_f) * A_p * (1 - A_p)
+                else:
+                    dZ = np.matmul(A.T, dZ_f) * (1 - A_p**2)
+            else:
+                dZ = np.matmul(A.T, dZ_f) * A_p * (1 - A_p)
 
             # update parameters W and b : new position
             self.__weights["W{}".format(layer)] -= alpha * dW
