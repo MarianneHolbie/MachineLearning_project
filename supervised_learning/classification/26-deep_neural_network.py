@@ -87,25 +87,27 @@ class DeepNeuralNetwork:
             :return: output neural network and cache
         """
 
-        A = X
         # store X in A0
         if 'A0' not in self.__cache:
             self.__cache['A0'] = X
 
         for i in range(1, self.__L + 1):
-            prev = A
-            W = self.__weights["W{}".format(i)]
-            b = self.__weights["b{}".format(i)]
-
-            # multiplication of weight and add bias
-            Z = np.matmul(W, A) + b
+            # first layer
+            if i == 1:
+                W = self.__weights["W{}".format(i)]
+                b = self.__weights["b{}".format(i)]
+                # multiplication of weight and add bias
+                Z = np.matmul(W, X) + b
+            else:  # next layers
+                W = self.__weights["W{}".format(i)]
+                b = self.__weights["b{}".format(i)]
+                X = self.__cache['A{}'.format(i - 1)]
+                Z = np.matmul(W, X) + b
 
             # activation function
-            A = 1 / (1 + np.exp(-Z))
-            self.__cache["A{}".format(i)] = A
-            X = self.__cache['A{}'.format(i)]
+            self.__cache["A{}".format(i)] = 1 / (1 + np.exp(-Z))
 
-        return A, self.cache
+        return self.__cache["A{}".format(i)], self.__cache
 
     def cost(self, Y, A):
         """
@@ -216,7 +218,7 @@ class DeepNeuralNetwork:
             raise TypeError("graph must be a boolean")
         if not isinstance(step, int):
             raise TypeError("step must be an integer")
-        if step <= 0 or step < iterations:
+        if step <= 0 or step > iterations:
             raise ValueError("step must be positive and <= iterations")
 
         # list to store cost /iter
