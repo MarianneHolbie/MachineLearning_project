@@ -216,10 +216,11 @@ class DeepNeuralNetwork:
             raise TypeError("verbose must be a boolean")
         if not isinstance(graph, bool):
             raise TypeError("graph must be a boolean")
-        if not isinstance(step, int):
-            raise TypeError("step must be an integer")
-        if step <= 0 or step > iterations:
-            raise ValueError("step must be positive and <= iterations")
+        if verbose is True or graph is True:
+            if not isinstance(step, int):
+                raise TypeError("step must be an integer")
+            if step <= 0 or step > iterations:
+                raise ValueError("step must be positive and <= iterations")
 
         # list to store cost /iter
         costs = []
