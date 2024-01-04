@@ -128,10 +128,8 @@ class DeepNeuralNetwork:
         # store m value
         m = Y.shape[1]
 
-        # use cross-entropy loss
-        epsilon = 1e-15
         # calculate log loss function
-        log_loss = -(1 / m) * np.sum((Y * np.log(A + epsilon)))
+        log_loss = -(1 / m) * np.sum(Y * np.log(A))
 
         return log_loss
 
