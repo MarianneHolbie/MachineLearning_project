@@ -167,10 +167,7 @@ class DeepNeuralNetwork:
         cost = self.cost(Y, output)
 
         # convert predicted proba to one-hot
-        result = np.zeros_like(output)
-
-        # label values
-        result[np.argmax(output, axis=0), np.arange(output.shape[1])] = 1
+        result = np.where(output == np.argmax(output, axis=0), 1, 0)
 
         return result, cost
 
