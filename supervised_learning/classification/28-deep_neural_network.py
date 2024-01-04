@@ -32,7 +32,7 @@ class DeepNeuralNetwork:
         if (not isinstance(layers, list) or
                 not all(map(lambda x: isinstance(x, int) and x > 0, layers))):
             raise TypeError("layers must be a list of positive integers")
-        if not activation == ('sig' or 'tanh'):
+        if activation != 'sig' and activation != 'tanh':
             raise ValueError("activation must be 'sig' or 'tanh'")
 
         # private attribute
