@@ -130,7 +130,7 @@ class DeepNeuralNetwork:
                     self.__cache["A{}".format(i)] = ((np.exp(Z) - np.exp(-Z)) /
                                                      (np.exp(Z) + np.exp(-Z)))
 
-        return self.__cache["A{}".format(i)], self.cache
+        return self.__cache["A{}".format(i)], self.__cache
 
     def cost(self, Y, A):
         """
