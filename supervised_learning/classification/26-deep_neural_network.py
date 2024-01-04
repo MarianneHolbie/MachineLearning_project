@@ -229,8 +229,11 @@ class DeepNeuralNetwork:
         for i in range(iterations + 1):
             # run forward propagation
             A, cache = self.forward_prop(X)
-            # run gradient descent
-            self.gradient_descent(Y, cache, alpha)
+
+            # run gradient descent for all iterations except the last one
+            if i != iterations:
+                self.gradient_descent(Y, self.cache, alpha)
+
             cost = self.cost(Y, A)
 
             # store cost for graph
