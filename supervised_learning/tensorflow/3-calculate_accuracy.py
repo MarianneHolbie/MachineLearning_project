@@ -16,7 +16,8 @@ def calculate_accuracy(y, y_pred):
         :return: tensor containing decimal accuracy of prediction
     """
     # comparison of indice's max value for y and y_pred
-    correct_prediction = tf.equal(tf.argmax(y, axis=1), tf.argmax(y_pred, axis=1))
+    correct_prediction = tf.equal(tf.argmax(y, axis=1),
+                                  tf.argmax(y_pred, axis=1))
 
     # convert tensor bool in float32
     correct_prediction = tf.cast(correct_prediction, dtype=tf.float32)
