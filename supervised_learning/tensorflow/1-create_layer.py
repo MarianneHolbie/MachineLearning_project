@@ -21,10 +21,9 @@ def create_layer(prev, n, activation):
     initializer = tf.keras.initializers.VarianceScaling(mode='fan_avg')
 
     # create layer with paramaters
-    layer_created = tf.layers.Dense(inputs=prev,
-                                    units=n,
-                                    activation=activation,
-                                    kernel_initializer=initializer,
-                                    name="layer")
+    new_layer = tf.layers.Dense(n,
+                                activation=activation,
+                                kernel_initializer=initializer,
+                                name="layer")
 
-    return layer_created
+    return new_layer(prev)
