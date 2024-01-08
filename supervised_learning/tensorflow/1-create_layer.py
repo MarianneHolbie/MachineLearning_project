@@ -20,10 +20,13 @@ def create_layer(prev, n, activation):
     # set initialization to He et. al
     initializer = tf.keras.initializers.VarianceScaling(mode='fan_avg')
 
-    # create layer with paramaters
+    # create layer Dense with paramaters
     new_layer = tf.layers.Dense(n,
                                 activation=activation,
                                 kernel_initializer=initializer,
                                 name="layer")
 
-    return new_layer(prev)
+    # apply layer to input
+    output = new_layer(prev)
+
+    return output
