@@ -101,19 +101,19 @@ class DeepNeuralNetwork:
         """
 
         # store X in A0
-        self.__cache = {}
+
         self.__cache['A0'] = X
         L = self.__L
 
         for l in range(1, L):
-            Z = np.matmul(self.__weights["W" + str(l)],
-                          self.__cache['A' + str(l - 1)]) + \
-                self.__weights['b' + str(l)]
+            Z = (np.matmul(self.__weights["W" + str(l)],
+                           self.__cache['A' + str(l - 1)]) +
+                 self.__weights['b' + str(l)])
             if self.__activation == 'sig':
                 A = 1 / (1 + np.exp(-Z))
             else:
                 A = np.tanh(Z)
-                self.__cache['A' + str(l)] = A
+            self.__cache['A' + str(l)] = A
 
         Z = (np.matmul(self.__weights["W" + str(L)],
                        self.__cache['A' + str(L - 1)]) +
