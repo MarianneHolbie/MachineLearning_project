@@ -101,36 +101,26 @@ class DeepNeuralNetwork:
         """
 
         # store X in A0
-        if 'A0' not in self.__cache:
-            self.__cache['A0'] = X
+        self.__cache['A0'] = X
+        L = self.__L
 
-        for i in range(1, self.__L + 1):
-            # first layer
-            if i == 1:
-                W = self.__weights["W{}".format(i)]
-                b = self.__weights["b{}".format(i)]
-                # multiplication of weight and add bias
-                Z = np.matmul(W, X) + b
-            else:  # next layers
-                W = self.__weights["W{}".format(i)]
-                b = self.__weights["b{}".format(i)]
-                X = self.__cache['A{}'.format(i - 1)]
-                Z = np.matmul(W, X) + b
-
-            # activation function :
-            # for last use softmax for multiclass
-            if i == self.__L:
-                exp_Z = np.exp(Z - np.max(Z, axis=0, keepdims=True))
-                self.__cache["A{}".format(i)] = (
-                        exp_Z / np.sum(exp_Z, axis=0, keepdims=True))
+        for l in range(1, L):
+            Z = np.matmul(self.__weights["W" + str(l)],
+                          self.__cache['A' + str(l - 1)]) + \
+                self.__weights['b' + str(l)]
+            if self.__activation == 'sig':
+                A = 1 / (1 + np.exp(-Z))
             else:
-                if self.activation == 'sig':
-                    self.__cache["A{}".format(i)] = 1 / (1 + np.exp(-Z))
-                else:
-                    self.__cache["A{}".format(i)] = ((np.exp(Z) - np.exp(-Z)) /
-                                                     (np.exp(Z) + np.exp(-Z)))
+                A = np.tanh(Z)
+                self.__cache['A' + str(l)] = A
 
-        return self.__cache["A{}".format(i)], self.__cache
+        Z = (np.matmul(self.__weights["W" + str(L)],
+                       self.__cache['A' + str(L - 1)]) +
+             self.__weights['b' + str(L)])
+        A = np.exp(Z) / np.sum(np.exp(Z), axis=0)
+        self.__cache['A' + str(L)] = A
+
+        return A, self.__cache
 
     def cost(self, Y, A):
         """
@@ -182,40 +172,31 @@ class DeepNeuralNetwork:
             :param alpha: learning rate
 
         """
+        L = self.__L
 
         # store m
         m = Y.shape[1]
 
         # derivative of final layer (output=self.L)
-        dZ_f = cache["A{}".format(self.L)] - Y
+        dZ = cache['A' + str(L)] - Y
+        dW = np.matmul(dZ, cache['A' + str(L - 1)].T) / m
+        db = np.sum(dZ, axis=1, keepdims=True) / m
+        W_prev = np.copy(self.__weights['W' + str(L)])
+        self.__weights['W' + str(L)] -= alpha * dW
+        self.__weights['b' + str(L)] -= alpha * db
 
-        # back loop to calculate previous
-        for layer in range(self.L, 0, -1):
-            # activation previous layer
-            A_p = cache["A{}".format(layer - 1)]
-
-            # derivate
-            dW = (1 / m) * np.matmul(dZ_f, A_p.T)
-            db = (1 / m) * np.sum(dZ_f, axis=1, keepdims=True)
-
-            # weight of current layer
-            W_key = "W{}".format(layer)
-            A = self.weights[W_key]
-
-            if layer > 1:
-                if self.activation == 'sig':
-                    dZ = np.matmul(A.T, dZ_f) * A_p * (1 - A_p)
-                else:
-                    dZ = np.matmul(A.T, dZ_f) * (1 - A_p**2)
+        for l in range(L - 1, 0, -1):
+            dA = np.matmul(W_prev.T, dZ)
+            A = cache['A' + str(l)]
+            if self.__activation == 'sig':
+                dZ = dA * A * (1 - A)
             else:
-                dZ = np.matmul(A.T, dZ_f) * A_p * (1 - A_p)
-
-            # update parameters W and b : new position
-            self.__weights["W{}".format(layer)] -= alpha * dW
-            self.__weights["b{}".format(layer)] -= alpha * db
-
-            # update dz_f with new value found
-            dZ_f = dZ
+                dZ = dA * (1 - (A ** 2))
+            dW = np.matmul(dZ, cache['A' + str(l - 1)].T) / m
+            db = np.sum(dZ, axis=1, keepdims=True) / m
+            W_prev = np.copy(self.__weights['W' + str(l)])
+            self.__weights['W' + str(L)] -= alpha * dW
+            self.__weights['b' + str(L)] -= alpha * db
 
     def train(self, X, Y, iterations=5000, alpha=0.05,
               verbose=True, graph=True, step=100):
