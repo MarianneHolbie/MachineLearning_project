@@ -192,8 +192,8 @@ class DeepNeuralNetwork:
             dW = np.matmul(dZ, cache['A' + str(l - 1)].T) / m
             db = np.sum(dZ, axis=1, keepdims=True) / m
             W_prev = np.copy(self.__weights['W' + str(l)])
-            self.__weights['W' + str(L)] -= alpha * dW
-            self.__weights['b' + str(L)] -= alpha * db
+            self.__weights['W' + str(l)] -= alpha * dW
+            self.__weights['b' + str(l)] -= alpha * db
 
     def train(self, X, Y, iterations=5000, alpha=0.05,
               verbose=True, graph=True, step=100):
@@ -230,27 +230,31 @@ class DeepNeuralNetwork:
                 raise ValueError("step must be positive and <= iterations")
 
         # list to store cost /iter
-        costs = []
-        count = []
+        if graph:
+            costs = []
+            count = []
 
         for i in range(iterations + 1):
             # run forward propagation
-            A, cache = self.forward_prop(X)
+            A, _ = self.forward_prop(X)
 
             # run gradient descent for all iterations except the last one
             if i != iterations:
                 self.gradient_descent(Y, self.cache, alpha)
 
-            cost = self.cost(Y, A)
-
-            # store cost for graph
-            costs.append(cost)
-            count.append(i)
+            if i % step == 0 or i == iterations:
+                current_cost = self.cost(Y, A)
+                if verbose:
+                    print("Cost after {} iterations: {}".
+                          format(i, current_cost))
+                if graph:
+                    costs.append(current_cost)
+                    count.append(i)
 
             # verbose TRUE, every step + first and last iteration
             if verbose and (i % step == 0 or i == 0 or i == iterations):
                 # run evaluate
-                print("Cost after {} iterations: {}".format(i, cost))
+                print("Cost after {} iterations: {}".format(i, current_cost))
 
         # graph TRUE after training complete
         if graph:
