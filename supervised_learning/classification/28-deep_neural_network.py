@@ -151,15 +151,12 @@ class DeepNeuralNetwork:
         """
 
         # run forward propagation
-        output, cache = self.forward_prop(X)
+        A, _ = self.forward_prop(X)
 
         # calculate cost
-        cost = self.cost(Y, output)
+        cost = self.cost(Y, A)
 
-        # convert predicted proba to one-hot
-        result = np.where(output == np.argmax(output, axis=0), 1, 0)
-
-        return result, cost
+        return np.where(A == np.max(A, axis=0), 1, 0), cost
 
     def gradient_descent(self, Y, cache, alpha=0.05):
         """
