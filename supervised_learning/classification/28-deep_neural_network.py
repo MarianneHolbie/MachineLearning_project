@@ -101,6 +101,7 @@ class DeepNeuralNetwork:
         """
 
         # store X in A0
+        self.__cache = {}
         self.__cache['A0'] = X
         L = self.__L
 
