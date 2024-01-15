@@ -3,7 +3,7 @@
    Moving Average
 """
 
-import tensorflow.compat.v1 as tf
+import numpy as np
 
 
 def moving_average(data, beta):
