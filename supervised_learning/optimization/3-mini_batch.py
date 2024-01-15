@@ -29,7 +29,6 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
     """
     # metagraphe and restore session
     with tf.Session() as sess:
-        sess.run(tf.global_variables_initializer())
         new_saver = tf.train.import_meta_graph(load_path + ".meta")
         new_saver.restore(sess, load_path)
 
@@ -59,18 +58,17 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
             print("\tValidation Cost:: {}".format(valid_cost))
             print("\tValidation Accuracy: {}".format(valid_accuracy))
 
-            train_dataset = shuffle_data(X_train, Y_train)
-            X_train_shuffled, Y_train_shuffled = train_dataset
+            X_train_shuffled, Y_train_shuffled = shuffle_data(X_train, Y_train)
 
             # calculate number of batches
             nbr_batch = m // batch_size + (m % batch_size != 0)
 
             for step_number in range(nbr_batch):
-                firs_index = step_number * batch_size
+                first_index = step_number * batch_size
                 last_index = min((step_number + 1) * batch_size, m)
 
-                x_batch = X_train_shuffled[firs_index: last_index]
-                y_batch = Y_train_shuffled[firs_index: last_index]
+                x_batch = X_train_shuffled[first_index: last_index]
+                y_batch = Y_train_shuffled[first_index: last_index]
 
                 # run training step with mini-batch
                 sess.run(train_op, feed_dict={x: x_batch, y: y_batch})
