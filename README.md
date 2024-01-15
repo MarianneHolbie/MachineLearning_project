@@ -21,6 +21,12 @@ Probability basics, conditional probability, probability distributions, and more
 
 ### [Classification](supervised_learning/classification)
 
+Introduction to classification, logistic regression, and more.
+
 ### [tensorflow](supervised_learning/tensorflow)
 
-Introduction to classification, logistic regression, and more.
+Introduction to tensorflow.
+
+### [optimization](supervised_learning/optimization)
+
+Introduction to optimization.
