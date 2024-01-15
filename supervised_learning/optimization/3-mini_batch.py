@@ -27,7 +27,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
         :return: path where model was saved
     """
     # metagraphe and restore session
-    with tf.Session() as sess:
+    with ((tf.Session() as sess)):
         sess.run(tf.global_variables_initializer())
         new_saver = tf.train.import_meta_graph(load_path + ".meta")
         new_saver.restore(sess, load_path)
@@ -77,7 +77,9 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                     [loss, accuracy], feed_dict={x: x_batch, y: y_batch})
 
                 # print mini-batch result every 100 batches
-                if step_number != 0 and step_number % 100 == 0 and epoch < epochs:
+                if step_number != 0 \
+                    and step_number % 100 == 0 \
+                    and epoch < epochs:
 
                     print("\tStep {}:".format(step_number))
                     print("\t\tCost: {}".format(step_cost))
