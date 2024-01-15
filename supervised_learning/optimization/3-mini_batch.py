@@ -23,7 +23,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32, epochs=5
 
         :return: path where model was saved
     """
-    # import metagraphe and restore session
+    # metagraphe and restore session
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
         new_saver = tf.train.import_meta_graph('graph.ckpt.meta')
