@@ -4,6 +4,7 @@
 """
 
 import tensorflow.compat.v1 as tf
+
 shuffle_data = __import__('2-shuffle_data').shuffle_data
 
 
@@ -27,7 +28,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
         :return: path where model was saved
     """
     # metagraphe and restore session
-    with (tf.Session() as sess):
+    with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
         new_saver = tf.train.import_meta_graph(load_path + ".meta")
         new_saver.restore(sess, load_path)
@@ -78,8 +79,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
 
                 # print mini-batch result every 100 batches
                 if step_number != 0 \
-                    and step_number % 100 == 0 and epoch < epochs:
-
+                        and step_number % 100 == 0 and epoch < epochs:
                     print("\tStep {}:".format(step_number))
                     print("\t\tCost: {}".format(step_cost))
                     print("\t\tAccuracy: {}".format(step_accuracy))
