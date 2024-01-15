@@ -37,15 +37,17 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
         y = tf.get_collection('y')[0]
         accuracy = tf.get_collection('accuracy')[0]
         loss = tf.get_collection('loss')[0]
-        train_op = tf.get_collection('train_op')
+        train_op = tf.get_collection('train_op')[0]
+
+        # store m and calul nomber of batches
+        m = X_train.shape[0]
+        nbr_batch = m // batch_size + (m % batch_size != 0)
 
         # loop over epochs
 
         for epoch in range(epochs + 1):
-            train_dataset = shuffle_data(X_train, Y_train)
-            X_train = train_dataset[0]
-            Y_train = train_dataset[1]
 
+            # Print training and validation metrics after each epoch
             train_cost, train_accuracy = sess.run(
                 [loss, accuracy], feed_dict={x: X_train, y: Y_train})
 
@@ -58,26 +60,31 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
             print("\tValidation Cost:: {}".format(valid_cost))
             print("\tValidation Accuracy: {}".format(valid_accuracy))
 
-            len_dataset = len(train_dataset[0])
+            train_dataset = shuffle_data(X_train, Y_train)
+            X_train_shuffled, Y_train_shuffled = train_dataset
 
-            for step_number in range(len_dataset//batch_size):
+            for step_number in range(nbr_batch):
                 firs_index = step_number * batch_size
-                last_index = (step_number + 1) * batch_size
-                x_batch = train_dataset[0][firs_index: last_index]
-                y_batch = train_dataset[1][firs_index: last_index]
+                last_index = min((step_number + 1) * batch_size, m)
 
+                x_batch = X_train_shuffled[firs_index: last_index]
+                y_batch = Y_train_shuffled[firs_index: last_index]
+
+                # run training step with mini-batch
                 sess.run(train_op, feed_dict={x: x_batch, y: y_batch})
-
                 step_cost, step_accuracy = sess.run(
                     [loss, accuracy], feed_dict={x: x_batch, y: y_batch})
 
+                # print mini-batch result every 100 batches
                 if step_number != 0 and step_number % 100 == 0:
 
                     print("\tStep {}:".format(step_number))
                     print("\t\tCost: {}".format(step_cost))
                     print("\t\tAccuracy: {}".format(step_accuracy))
 
-        # save session
+
+
+        # save trained model
         saved_model = new_saver.save(sess, save_path)
 
         return saved_model
