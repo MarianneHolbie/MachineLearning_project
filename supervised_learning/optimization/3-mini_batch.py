@@ -27,6 +27,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
 
         :return: path where model was saved
     """
+
     # metagraph and restore session
     with tf.Session() as sess:
         new_saver = tf.train.import_meta_graph(load_path + ".meta")
@@ -68,7 +69,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                 if epoch < epochs:
                     for step_number in range(nbr_batch):
                         first_index = step_number * batch_size
-                        last_index = min((first_index + 1) + batch_size, m)
+                        last_index = min(first_index + batch_size, m)
 
                         x_batch = X_train_shuffled[first_index: last_index]
                         y_batch = Y_train_shuffled[first_index: last_index]
