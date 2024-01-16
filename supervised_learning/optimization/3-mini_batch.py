@@ -59,7 +59,8 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
             print("\tValidation Accuracy: {}".format(valid_accuracy))
 
             if epoch < epochs:
-                X_train_shuffled, Y_train_shuffled = shuffle_data(X_train, Y_train)
+                X_train_shuffled, Y_train_shuffled = \
+                    shuffle_data(X_train, Y_train)
 
                 # calculate number of batches
                 nbr_batch = m // batch_size + (m % batch_size != 0)
@@ -78,7 +79,8 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                     if step_number != 0 \
                             and step_number % 100 == 0 and epoch < epochs:
                         step_cost, step_accuracy = sess.run(
-                            [loss, accuracy], feed_dict={x: x_batch, y: y_batch})
+                            [loss, accuracy],
+                            feed_dict={x: x_batch, y: y_batch})
                         print("\tStep {}:".format(step_number))
                         print("\t\tCost: {}".format(step_cost))
                         print("\t\tAccuracy: {}".format(step_accuracy))
