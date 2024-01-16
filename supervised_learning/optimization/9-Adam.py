@@ -23,15 +23,16 @@ def update_variables_Adam(alpha, beta1, beta2, epsilon, var, grad, v, s, t):
 
         :return: update var, new first moment, new second moment
     """
-    # bias correction
-    new_v = v / (1 - beta1**t)
-    new_s = s / (1 - beta2**t)
 
     # update rules
-    v = beta1 * v + (1 - beta1) * grad
-    s = beta2 * s + (1 - beta2) * grad**2
+    new_v = beta1 * v + (1 - beta1) * grad
+    new_s = beta2 * s + (1 - beta2) * grad**2
+
+    # bias correction
+    v_corrected = v_new / (1 - beta1**t)
+    s_corrected = s_new / (1 - beta2**t)
 
     # update var
-    var = var - alpha * (v / (np.sqrt(s) + epsilon))
+    var = var - alpha * (v_corrected / (np.sqrt(s_corrected) + epsilon))
 
     return var, new_v, new_s
