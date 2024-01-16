@@ -21,7 +21,7 @@ def create_RMSProp_op(loss, alpha, beta2, epsilon):
 
     # set optimizer taht implement Momentum algo in tf
     optimizer = tf.train.RMSPropOptimizer(learning_rate=alpha,
-                                          momentum=beta2,
+                                          decay=beta2,
                                           epsilon=epsilon)
 
     # train_op to minimize loss with this optimizer
