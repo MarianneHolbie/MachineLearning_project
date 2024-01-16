@@ -22,23 +22,27 @@ def create_batch_norm_layer(prev, n, activation):
 
     # create layer Dense with parameters
     new_layer = tf.layers.Dense(n,
-                                activation=activation,
+                                activation=None,
                                 kernel_initializer=initializer,
                                 name="layer")
 
     # apply layer to input
     x = new_layer(prev)
+    mean, variance = tf.nn.moments(x, axes=[0])
 
     # beta and gamma : two trainable parameters
-    beta = tf.compat.v1.zeros_initializer()
-    gamma = tf.compat.v1.ones_initializer()
+    gamma = tf.Variable(tf.ones([n]), name='gamma')
+    beta = tf.Variable(tf.zeros([n]), name='beta')
 
     epsilon = 1e-8
 
-    x_norm = tf.compat.v1.layers.batch_normalization(
-        inputs=x,
-        beta_initializer=beta,
-        gamma_initializer=gamma,
-        epsilon=epsilon)
+    # apply batch normalization
+    x_norm = tf.nn.batch_normalization(
+        x=x,
+        mean=mean,
+        variance=variance,
+        offset=beta,
+        scale=gamma,
+        variance_epsilon=epsilon)
 
-    return x_norm
+    return activation(x_norm)
