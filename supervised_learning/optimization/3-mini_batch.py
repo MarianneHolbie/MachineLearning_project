@@ -64,28 +64,29 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                     shuffle_data(X_train, Y_train)
 
                 # calculate number of batches
-                nbr_batch = m // batch_size
+                nbr_batch = m // batch_size + (m % batch_size != 0)
 
-                if epoch < epochs:
-                    for step_number in range(nbr_batch):
-                        first_index = step_number * batch_size
-                        last_index = min(first_index + batch_size, m)
+                for step_number in range(nbr_batch):
+                    first_index = step_number * batch_size
+                    last_index = min(first_index + batch_size, m)
+                    print("first_index {}".format(first_index))
+                    print("last_index {}".format(last_index))
 
-                        x_batch = X_train_shuffled[first_index: last_index]
-                        y_batch = Y_train_shuffled[first_index: last_index]
+                    x_batch = X_train_shuffled[first_index: last_index]
+                    y_batch = Y_train_shuffled[first_index: last_index]
 
-                        # run training step with mini-batch
-                        sess.run(train_op, feed_dict={x: x_batch, y: y_batch})
+                    # run training step with mini-batch
+                    sess.run(train_op, feed_dict={x: x_batch, y: y_batch})
 
-                        # print mini-batch result every 100 batches
-                        if step_number > 0 and (step_number + 1) % 100 == 0:
-                            step_cost, step_accuracy = sess.run(
-                                [loss, accuracy],
-                                feed_dict={x: x_batch, y: y_batch})
+                    # print mini-batch result every 100 batches
+                    if step_number > 0 and (step_number + 1) % 100 == 0:
+                        step_cost, step_accuracy = sess.run(
+                            [loss, accuracy],
+                            feed_dict={x: x_batch, y: y_batch})
 
-                            print("\tStep {}:".format(step_number + 1))
-                            print("\t\tCost: {}".format(step_cost))
-                            print("\t\tAccuracy: {}".format(step_accuracy))
+                        print("\tStep {}:".format(step_number + 1))
+                        print("\t\tCost: {}".format(step_cost))
+                        print("\t\tAccuracy: {}".format(step_accuracy))
 
         # save trained model
         saved_model = new_saver.save(sess, save_path)
