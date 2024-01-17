@@ -69,8 +69,6 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                 for step_number in range(nbr_batch):
                     first_index = step_number * batch_size
                     last_index = min(first_index + batch_size, m)
-                    print("first_index {}".format(first_index))
-                    print("last_index {}".format(last_index))
 
                     x_batch = X_train_shuffled[first_index: last_index]
                     y_batch = Y_train_shuffled[first_index: last_index]
