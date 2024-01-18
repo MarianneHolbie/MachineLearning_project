@@ -265,10 +265,12 @@ def model(Data_train, Data_valid, layers, activations, alpha=0.001, beta1=0.9,
         sess.run(init)
 
         for i in range(epochs + 1):
-            train_cost, train_accuracy = sess.run([loss, accuracy],
-                                                  feed_dict={x: X_train, y: Y_train})
-            valid_cost, valid_accuracy = sess.run([loss, accuracy],
-                                                  feed_dict={x: X_valid, y: Y_valid})
+            train_cost, train_accuracy = sess.run(
+                [loss, accuracy],
+                feed_dict={x: X_train, y: Y_train})
+            valid_cost, valid_accuracy = sess.run(
+                [loss, accuracy],
+                feed_dict={x: X_valid, y: Y_valid})
 
             # print training and validation cost and accuracy
             print("After {} epochs:".format(i))
