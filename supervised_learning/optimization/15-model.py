@@ -90,13 +90,15 @@ def forward_prop(prev, layers, activations, epsilon):
 
         :return: the prediction of NN in tensor form
     """
-    # all layers get batch_normalization but the last one, that stays without any activation or normalization
+    # all layers get batch_normalization but the last one, that stays without
+    # any activation or normalization
 
     # first layer
     layers_norm = create_batch_norm_layer(prev, layers[0], activations[0])
 
     for i in range(1, len(layers)):
-        layers_norm = create_batch_norm_layer(layers_norm, layers[i], activations[i])
+        layers_norm = create_batch_norm_layer(layers_norm,
+                                              layers[i], activations[i])
 
     return layers_norm
 
@@ -189,6 +191,26 @@ def shuffle_data(X, Y):
 def model(Data_train, Data_valid, layers, activations, alpha=0.001, beta1=0.9,
           beta2=0.999, epsilon=1e-8, decay_rate=1, batch_size=32, epochs=5,
           save_path='/tmp/model.ckpt'):
+    """
+        Function that builds, trains, saves a NN model in TF
+        using Adam optimizer, mini-batch GD,
+              Learning Rate decay, batch normalization
+
+        :param Data_train: tuple, training inputs, training labels
+        :param Data_valid: tuple, validation inputs, validation labels
+        :param layers: number of nodes in each layer
+        :param activations: list activation functions
+        :param alpha: learning rate
+        :param beta1: weight first moment Adam Opt
+        :param beta2: weight second moment Adam Opt
+        :param epsilon: small number
+        :param decay_rate: decay rate for inverse time of learning rate
+        :param batch_size: number of data points in mini-batch
+        :param epochs: number times training
+        :param save_path: path where model was saved
+
+        :return: saved model path
+    """
     # get X_train, Y_train, X_valid, and Y_valid from Data_train and Data_valid
     X_train, Y_train = Data_train
     X_valid, Y_valid = Data_valid
@@ -219,8 +241,10 @@ def model(Data_train, Data_valid, layers, activations, alpha=0.001, beta1=0.9,
 
     # initialize global_step variable
     # hint: not trainable
-    global_step = tf.Variable(initial_value=0, trainable=False, dtype=tf.int32, name='global_step')
-
+    global_step = tf.Variable(initial_value=0,
+                              trainable=False,
+                              dtype=tf.int32,
+                              name='global_step')
 
     # create "alpha" the learning rate decay operation in tensorflow
     alpha = tf.compat.v1.train.inverse_time_decay(
@@ -241,8 +265,10 @@ def model(Data_train, Data_valid, layers, activations, alpha=0.001, beta1=0.9,
         sess.run(init)
 
         for i in range(epochs + 1):
-            train_cost, train_accuracy = sess.run([loss, accuracy], feed_dict={x: X_train, y: Y_train})
-            valid_cost, valid_accuracy = sess.run([loss, accuracy], feed_dict={x: X_valid, y: Y_valid})
+            train_cost, train_accuracy = sess.run([loss, accuracy],
+                                                  feed_dict={x: X_train, y: Y_train})
+            valid_cost, valid_accuracy = sess.run([loss, accuracy],
+                                                  feed_dict={x: X_valid, y: Y_valid})
 
             # print training and validation cost and accuracy
             print("After {} epochs:".format(i))
@@ -267,7 +293,8 @@ def model(Data_train, Data_valid, layers, activations, alpha=0.001, beta1=0.9,
                     start = j * batch_size
                     stop = min(start + batch_size, m)
 
-                    # get X_batch and Y_batch from X_train shuffled and Y_train shuffled
+                    # get X_batch and Y_batch from X_train shuffled
+                    # and Y_train shuffled
                     X_batch = X_shuffled[start:stop]
                     Y_batch = Y_shuffled[start:stop]
 
