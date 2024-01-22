@@ -20,10 +20,10 @@ def sensitivity(confusion):
     sensitivity_matrix = np.zeros((classes,))
 
     for i in range(classes):
-        true_positif = confusion[i][i]
+        true_positif = confusion[i, i]
         # sum along the row
-        total_positifs = np.sum(confusion[i:])
+        total_positifs = np.sum(confusion[i, :])
 
-        sensitivity_matrix[i] = confusion[i][i] / total_positifs
+        sensitivity_matrix[i] = true_positif / total_positifs
 
     return sensitivity_matrix
