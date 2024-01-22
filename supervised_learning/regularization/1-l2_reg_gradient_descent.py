@@ -43,7 +43,7 @@ def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
 
         # derivative of tanh activation
         if layer != 1:
-            dZ = dA * (1 - (np.tanh(A_prev))**2)
+            dZ = dA * (1 - A_prev ** 2)
         else:  # Apply softmax derivative for the last layer
             dZ = dA
 
