@@ -18,14 +18,10 @@ def precision(confusion):
     classes = confusion.shape[0]
     # initialize sensitivity
     precision_matrix = np.zeros((classes,))
-    falses_positif = 0
 
     for i in range(classes):
         true_positif = confusion[i, i]
-        for j in range(classes):
-            if j != i:
-                falses_positif += confusion[i][j]
+        falses_positif = np.sum(confusion[:, i]) - true_positif
         precision_matrix[i] = true_positif / (true_positif + falses_positif)
-        falses_positif = 0
 
     return precision_matrix
