@@ -1,0 +1,31 @@
+#!/usr/bin/env python3
+"""
+    Precision
+"""
+
+import numpy as np
+
+
+def precision(confusion):
+    """
+        function that calculates the precision for each class in a confusion matrix
+
+        :param confusion: ndarray, shape(classes,classes), confusion matrix
+
+        :return: ndarray, shape(classes,), precision for each class
+    """
+    # number of classes
+    classes = confusion.shape[0]
+    # initialize sensitivity
+    precision_matrix = np.zeros((classes,))
+    falses_positif = 0
+
+    for i in range(classes):
+        true_positif = confusion[i, i]
+        for j in range(classes):
+            if j != i:
+                falses_positif += confusion[i][j]
+        precision_matrix[i] = true_positif / (true_positif + falses_positif)
+        falses_positif = 0
+
+    return precision_matrix
