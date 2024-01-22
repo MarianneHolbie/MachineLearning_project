@@ -2,10 +2,9 @@
 """
     F1 score
 """
+import numpy as np
 sensitivity = __import__('1-sensitivity').sensitivity
 precision = __import__('2-precision').precision
-
-import numpy as np
 
 
 def f1_score(confusion):
