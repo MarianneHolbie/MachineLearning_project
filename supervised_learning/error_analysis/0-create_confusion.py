@@ -22,7 +22,6 @@ def create_confusion_matrix(labels, logits):
     classes = labels.shape[1]
     # initialize confusion matrix
     conf_matrix = np.zeros((classes, classes))
-    print(conf_matrix)
 
     # loop across the examples
     for i in range(m):
