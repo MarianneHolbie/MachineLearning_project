@@ -23,7 +23,7 @@ def specificity(confusion):
     # formule specificity : true negativ / (true negativ + falses positif)
     for i in range(classes):
         true_pos = confusion[i, i]
-        falses_pos= np.sum(confusion[:, i]) - true_pos
+        falses_pos = np.sum(confusion[:, i]) - true_pos
         falses_neg = np.sum(confusion[i, :]) - true_pos
 
         # TP = Total - (TP + FP + FN)
