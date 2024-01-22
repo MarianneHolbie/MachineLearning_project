@@ -8,7 +8,8 @@ import numpy as np
 
 def precision(confusion):
     """
-        function that calculates the precision for each class in a confusion matrix
+        function that calculates the precision for each class
+        in a confusion matrix
 
         :param confusion: ndarray, shape(classes,classes), confusion matrix
 
