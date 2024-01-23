@@ -14,7 +14,7 @@ def l2_reg_cost(cost):
 
         :return: tensor cost WITH L2 regularization
     """
-    regularization_L2 = tf.compat.v1.losses.get_regularization_loss()
+    regularization_L2 = tf.compat.v1.losses.get_regularization_losses()
 
     cost_L2reg = cost + regularization_L2
 
