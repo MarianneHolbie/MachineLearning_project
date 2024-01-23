@@ -21,11 +21,12 @@ def l2_reg_create_layer(prev, n, activation, lambtha):
     initializer = tf.keras.initializers.VarianceScaling(mode='fan_avg')
 
     # create layer Dense with parameters
-    new_layer = tf.layers.Dense(n,
-                                activation=activation,
-                                kernel_initializer=initializer,
-                                kernel_regularizer=tf.keras.regularizers.l2(l=lambtha),
-                                name="layer")
+    new_layer = (
+        tf.layers.Dense(n,
+                        activation=activation,
+                        kernel_initializer=initializer,
+                        kernel_regularizer=tf.keras.regularizers.l2(l=lambtha),
+                        name="layer"))
 
     # apply layer to input
     output = new_layer(prev)
