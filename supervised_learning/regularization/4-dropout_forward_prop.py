@@ -19,15 +19,17 @@ def dropout_forward_prop(X, weights, L, keep_prob):
     """
     cache = {'A0': X}
 
-    for l in range(1, L):
-        Z = (np.matmul(weights["W" + str(l)],
-                       cache['A' + str(l - 1)]) +
-             weights['b' + str(l)])
+    for layer in range(1, L):
+        Z = (np.matmul(weights["W" + str(layer)],
+                       cache['A' + str(layer - 1)]) +
+             weights['b' + str(layer)])
         A = np.tanh(Z)
         dropout = np.random.binomial(1, keep_prob, size=A.shape)
-        cache["D" + str(l)] = dropout
+        cache["D" + str(layer)] = dropout
         A = np.multiply(A, dropout)
-        cache['A' + str(l)] = A
+        # normalize the output of the current layer
+        A /= keep_prob
+        cache['A' + str(layer)] = A
 
     # last layer with softmax activation
     Z = (np.matmul(weights["W" + str(L)],
