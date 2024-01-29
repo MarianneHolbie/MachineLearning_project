@@ -20,7 +20,6 @@ def save_config(network, filename):
         f.write(network_config)
 
 
-
 def load_config(filename):
     """
         loads a model with a specific configuration
