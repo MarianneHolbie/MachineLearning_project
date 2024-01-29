@@ -34,3 +34,7 @@ Introduction to optimization.
 ### [error_analysis](supervised_learning/error_analysis)
 
 Confusion matrix, type I and II error, sensitivity, specificity, presision, recall, F1 score, bias, variance...
+
+### [Keras](supervised_learning/keras)
+
+Introduction to Keras.
