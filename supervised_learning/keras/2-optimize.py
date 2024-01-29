@@ -19,8 +19,8 @@ def optimize_model(network, alpha, beta1, beta2):
         :return: None
     """
     Adam_optimizer = K.optimizers.Adam(learning_rate=alpha,
-                      beta_1=beta1,
-                      beta_2=beta2)
+                                       beta_1=beta1,
+                                       beta_2=beta2)
 
     network.compile(optimizer=Adam_optimizer,
                     loss='categorical_crossentropy',
