@@ -25,8 +25,7 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
                   activation=activations[i],
                   kernel_regularizer=K.regularizers.L2(lambtha),
                   input_dim=nx))
-
-        if keep_prob is not None:
+        if i != 0 and keep_prob is not None:
             model.add(K.layers.Dropout(1-keep_prob))
 
     return model
