@@ -33,6 +33,7 @@ def convolve_grayscale_valid(images, kernel):
             image_zone = images[:, i:i+kh, j:j+kw]
 
             # element wize multiplication
-            convolved_images[:, i, j] = np.sum(image_zone * kernel, axis=(1, 2))
+            convolved_images[:, i, j] = np.sum(image_zone * kernel,
+                                               axis=(1, 2))
 
     return convolved_images
