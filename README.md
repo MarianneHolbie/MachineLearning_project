@@ -17,6 +17,8 @@ Sum and product notation, derivative, integral and theirs rules.
 
 Probability basics, conditional probability, probability distributions, and more.
 
+### [Convolutions and pooling](math/convolutions_and_pooling)
+
 ## [Supervised Learning](supervised_learning)
 
 ### [Classification](supervised_learning/classification)

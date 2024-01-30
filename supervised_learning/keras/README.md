@@ -12,7 +12,7 @@
 | [6. Early Stopping](./6-train.py)                 | Builds, trains, and saves a neural network classifier. |
 | [7. Learning Rate Decay](./7-train.py)            | Builds, trains, and saves a neural network classifier. |
 | [8. Save Only the Best](./8-train.py)             | Builds, trains, and saves a neural network classifier. |
-| [9. Save and Load Model](./9-train.py)            | Builds, trains, and saves a neural network classifier. |
+| [9. Save and Load Model](./9-model.py)            | Builds, trains, and saves a neural network classifier. |
 | [10. Save and Load Weights](./10-weights.py)      | Builds, trains, and saves a neural network classifier. |
 | [11. Save and Load Configuration](./11-config.py) | Builds, trains, and saves a neural network classifier. |
 | [12. Test](./12-test.py)                          | Builds, trains, and saves a neural network classifier. |
