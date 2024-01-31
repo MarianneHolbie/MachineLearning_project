@@ -29,9 +29,9 @@ def convolve_grayscale_same(images, kernel):
     # initialize output
     convolved_images = np.zeros((m, output_height, output_width))
 
-    # calcul padding (both side)
-    padding_width = (kw - 1) // 2
-    padding_height = (kh - 1) // 2
+    # calcul padding (size odd or even)
+    padding_width = max((kw - 1) // 2, kw // 2)
+    padding_height = max((kh - 1) // 2, kh // 2)
 
     # add zero padding to the input images
     image_pad = np.pad(images,
@@ -40,11 +40,7 @@ def convolve_grayscale_same(images, kernel):
 
     # convolution
     for i in range(output_height):
-        if i > h - kh:
-            break
         for j in range(output_width):
-            if j > w - kw:
-                break
             # extract region from each image
             image_zone = image_pad[:, i:i+kh, j:j+kw]
 
