@@ -19,6 +19,9 @@ def convolve_grayscale_same(images, kernel):
     m, h, w = images.shape
     kh, kw = kernel.shape
 
+    # cross correlation
+    kernel = np.flipud(np.fliplr(kernel))
+
     # output size
     output_height = h
     output_width = w
@@ -27,17 +30,21 @@ def convolve_grayscale_same(images, kernel):
     convolved_images = np.zeros((m, output_height, output_width))
 
     # calcul padding (both side)
-    padding_width = (kh - 1) // 2
-    padding_height = (kw - 1) // 2
+    padding_width = (kw - 1) // 2
+    padding_height = (kh - 1) // 2
 
     # add zero padding to the input images
     image_pad = np.pad(images,
-                       ((0, 0), (padding_width, padding_width),
-                        (padding_height, padding_height)), mode='constant')
+                       ((0, 0), (padding_height, padding_height),
+                        (padding_width, padding_width)), mode='constant')
 
     # convolution
     for i in range(output_height):
+        if i > h - kh:
+            break
         for j in range(output_width):
+            if j > w - kw:
+                break
             # extract region from each image
             image_zone = image_pad[:, i:i+kh, j:j+kw]
 
