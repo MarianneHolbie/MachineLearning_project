@@ -19,9 +19,6 @@ def convolve_grayscale_same(images, kernel):
     m, h, w = images.shape
     kh, kw = kernel.shape
 
-    # cross correlation
-    kernel = np.flipud(np.fliplr(kernel))
-
     # output size
     output_height = h
     output_width = w
@@ -30,8 +27,8 @@ def convolve_grayscale_same(images, kernel):
     convolved_images = np.zeros((m, output_height, output_width))
 
     # calcul padding (size odd or even)
-    padding_width = max((kw - 1) // 2, kw // 2)
-    padding_height = max((kh - 1) // 2, kh // 2)
+    padding_width = int(kw / 2)
+    padding_height = int(kh / 2)
 
     # add zero padding to the input images
     image_pad = np.pad(images,
