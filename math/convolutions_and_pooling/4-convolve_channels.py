@@ -8,9 +8,9 @@ import numpy as np
 
 def convolve_channels(images, kernel, padding='same', stride=(1, 1)):
     """
-        Function that performs a convolution on grayscale images
+        Function that performs a convolution on images with channels
 
-        :param images: ndarray, shape(m, h, w, c), multiple grayscale images
+        :param images: ndarray, shape(m, h, w, c), multiple images
         :param kernel: ndarray, shape(kh,kw, c), kernel for convolution
         :param padding: tuple (ph,pw) or 'same" or "valid'
         :param stride: tuple (sh, sw)
