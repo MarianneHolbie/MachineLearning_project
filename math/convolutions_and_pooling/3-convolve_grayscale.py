@@ -32,9 +32,9 @@ def convolve_grayscale(images, kernel, padding='same', stride=(1, 1)):
              when moving vertically over the image
             (+ kh - h): size of the filter (kh) subtract the height image (h)
              to ensure the filter stays entirely within the image.
-            /2 : get the distance from the center of the image 
+            /2 : get the distance from the center of the image
             to the top or bottom edge
-            + 1 : add 1 to ensure that even if the distance is a decimal, 
+            + 1 : add 1 to ensure that even if the distance is a decimal,
             we round up to ensure the filter stays entirely within the image.
             """
         ph = int((((h - 1) * sh + kh - h)/2) + 1)
