@@ -27,8 +27,8 @@ def convolve_channels(images, kernel, padding='same', stride=(1, 1)):
         # no padding
         ph, pw = 0, 0
     elif padding == 'same':
-        ph = int((((h - 1) * sh + kh - h)/2) + 1)
-        pw = int((((w - 1) * sw + kw - w)/2) + 1)
+        ph = int((((h - 1) * sh + kh - h) / 2) + 1)
+        pw = int((((w - 1) * sw + kw - w) / 2) + 1)
 
     elif isinstance(padding, tuple):
         ph, pw = padding
@@ -50,7 +50,7 @@ def convolve_channels(images, kernel, padding='same', stride=(1, 1)):
         for j in range(output_width):
             # extract region from each image
             image_zone = image_pad[:, i * sh:i * sh + kh,
-                         j * sw:j * sw + kw, :]
+                                   j * sw:j * sw + kw, :]
 
             # element wize multiplication
             convolved_images[:, i, j] = np.sum(image_zone * kernel,
