@@ -49,7 +49,8 @@ def convolve_channels(images, kernel, padding='same', stride=(1, 1)):
     for i in range(output_height):
         for j in range(output_width):
             # extract region from each image
-            image_zone = image_pad[:, i * sh:i * sh + kh, j * sw:j * sw + kw, :]
+            image_zone = image_pad[:, i * sh:i * sh + kh,
+                         j * sw:j * sw + kw, :]
 
             # element wize multiplication
             convolved_images[:, i, j] = np.sum(image_zone * kernel,
