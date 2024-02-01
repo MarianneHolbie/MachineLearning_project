@@ -51,7 +51,7 @@ def convolve(images, kernel, padding='same', stride=(1, 1)):
             for j in range(output_width):
                 # extract region from each image
                 image_zone = image_pad[:, i * sh:i * sh + kh,
-                             j * sw:j * sw + kw, :]
+                                       j * sw:j * sw + kw, :]
 
                 # element wize multiplication
                 convolved_images[:, i, j, k] = np.sum(image_zone
