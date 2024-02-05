@@ -21,8 +21,8 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
         :param padding: string 'same' or 'valid' type of padding
         :param stride: tuple (sh,sw) stride of convolution
 
-        :return: the partial derivatives with respect to the previous layer (dA_prev),
-         the kernels (dW), and the biases (db), respectively
+        :return: the partial derivatives with respect to the previous
+    layer (dA_prev),the kernels (dW), and the biases (db), respectively
     """
 
     # extract variable
@@ -49,7 +49,7 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
     db = (1 / m) * np.sum(dZ, axis=(0, 1, 2), keepdims=True)
 
     # initialize shape for dx and dW
-    dx = np.zeros_like(x_pad)
+    dx = np.zeros_like(A_prev)
     dW = np.zeros_like(W)
 
     # output
