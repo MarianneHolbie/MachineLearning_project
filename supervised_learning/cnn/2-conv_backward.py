@@ -8,11 +8,14 @@ import numpy as np
 
 def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
     """
-        function that performs back propagation over a convolutional layer of NN
+        function that performs back propagation over a convolutional
+        layer of NN
 
-        :param dZ: ndarray, shape(m,h_new,w_new_c_new) partial derivatives with respect
+        :param dZ: ndarray, shape(m,h_new,w_new_c_new) partial derivatives
+        with respect
          to the unactivated output of the convolutional layer
-        :param A_prev: ndarray, shape(m,h_prev,w_prev,c_prev) output of prev layer
+        :param A_prev: ndarray, shape(m,h_prev,w_prev,c_prev) output of
+        prev layer
         :param W: ndarray, shape(kh,kw,c_prev,c_new) kernel convolution
         :param b: ndarray, shape(1,1,1,c_new) biases
         :param padding: string 'same' or 'valid' type of padding
