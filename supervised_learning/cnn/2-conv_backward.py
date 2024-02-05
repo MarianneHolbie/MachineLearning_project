@@ -70,7 +70,9 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
 
                     # update derivative
                     dx[i, v_start:v_end, h_start:h_end, :] \
-                        += dZ[i, h, w, f] * W[:, :, :, f]
-                    dW[:, :, :, f] += x_zone * dZ[i, h, w, f]
+                        += np.sum(dZ[i, h, w, f] * W[:, :, :, f],
+                                  axis=(0, 1, 2), keepdims=True)
+                    dW[:, :, :, f] += np.sum(x_zone * dZ[i, h, w, f],
+                                             axis=0)
 
     return dx, dW, db
