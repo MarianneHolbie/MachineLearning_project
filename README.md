@@ -40,3 +40,7 @@ Confusion matrix, type I and II error, sensitivity, specificity, presision, reca
 ### [Keras](supervised_learning/keras)
 
 Introduction to Keras.
+
+### [cnn](supervised_learning/cnn)
+
+Convolutional Neural Network : layer, pooling, forward/backward propagation, build with Tensorflow and Keras
