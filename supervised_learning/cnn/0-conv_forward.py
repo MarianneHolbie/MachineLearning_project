@@ -29,8 +29,8 @@ def conv_forward(A_prev, W, b, activation, padding="same", stride=(1, 1)):
         # no padding
         ph, pw = 0, 0
     elif padding == 'same':
-        ph = int((((h_prev - 1) * sh + kh - h_prev) / 2) + 1)
-        pw = int((((w_prev - 1) * sw + kw - w_prev) / 2) + 1)
+        ph = int((((h_prev - 1) * sh + kh - h_prev) / 2))
+        pw = int((((w_prev - 1) * sw + kw - w_prev) / 2))
 
     # output size
     output_height = int((h_prev - kh + 2 * ph) / sh + 1)
