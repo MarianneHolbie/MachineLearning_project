@@ -49,7 +49,7 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
     db = (1 / m) * np.sum(dZ, axis=(0, 1, 2), keepdims=True)
 
     # initialize shape for dx and dW
-    dx = np.zeros_like(A_prev)
+    dx = np.zeros(x_pad.shape)
     dW = np.zeros_like(W)
 
     # output
@@ -71,8 +71,7 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
 
                     # update derivative
                     dx[i, v_start:v_end, h_start:h_end, :] \
-                        += np.sum(dZ[i, h, w, f] * W[:, :, :, f],
-                                  axis=(0, 1, 2))
+                        += dZ[i, h, w, f] * W[:, :, :, f]
                     dW[:, :, :, f] += x_zone * dZ[i, h, w, f]
 
     return dx, dW, db
