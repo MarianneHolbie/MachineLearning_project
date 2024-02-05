@@ -30,7 +30,6 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
     _, h_prev, w_prev, c_prev = A_prev.shape
     kh, kw, _, _ = W.shape
     sh, sw = stride
-    x = A_prev
 
     # output size and padding
     if padding == 'valid':
@@ -41,16 +40,16 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
         pw = int((((w_prev - 1) * sw + kw - w_prev) / 2))
 
     # apply padding
-    x_pad = np.pad(x,
+    x_pad = np.pad(A_prev,
                    ((0, 0), (ph, ph), (pw, pw), (0, 0)),
                    mode='constant')
 
     # calcul of db
-    db = (1 / m) * np.sum(dZ, axis=(0, 1, 2), keepdims=True)
+    db = np.sum(dZ, axis=(0, 1, 2), keepdims=True)
 
     # initialize shape for dx and dW
-    dx = np.zeros(x_pad.shape)
-    dW = np.zeros_like(W)
+    dx = np.zeros(shape=x_pad.shape)
+    dW = np.zeros(shape=W.shape)
 
     # output
     # for each example
