@@ -47,7 +47,7 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
     # calcul of db
     db = np.sum(dZ, axis=(0, 1, 2), keepdims=True)
 
-    # initialize shape for dx and dW
+    # initialize shape for dA_pad and dW
     dA_pad = np.zeros(shape=A_prev_pad.shape)
     dW = np.zeros(shape=W.shape)
 
@@ -71,6 +71,7 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
                                                   h_start:h_end, :]
                                        * dZ[i, h, w, f])
 
+    # maintain output size when same
     if padding == "same":
         dA = dA_pad[:, ph:-ph, pw:-pw, :]
     else:
