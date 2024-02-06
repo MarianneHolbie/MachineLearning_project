@@ -26,8 +26,8 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
     """
 
     # extract variable
-    m, h_new, w_new, c_new = dZ.shape
-    _, h_prev, w_prev, c_prev = A_prev.shape
+    _, h_new, w_new, c_new = dZ.shape
+    m, h_prev, w_prev, c_prev = A_prev.shape
     kh, kw, _, _ = W.shape
     sh, sw = stride
 
@@ -41,7 +41,7 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
 
     # apply padding
     x_pad = np.pad(A_prev,
-                   ((0, 0), (ph, ph), (pw, pw), (0, 0)),
+                   [(0, 0), (ph, ph), (pw, pw), (0, 0)],
                    mode='constant')
 
     # calcul of db
@@ -70,9 +70,12 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
 
                     # update derivative
                     dx[i, v_start:v_end, h_start:h_end, :] \
-                        += np.sum(dZ[i, h, w, f] * W[:, :, :, f],
-                                  axis=(0, 1, 2), keepdims=True)
-                    dW[:, :, :, f] += np.sum(x_zone * dZ[i, h, w, f],
-                                             axis=0)
+                        += W[:, :, :, f] * dZ[i, h, w, f]
+                    dW[:, :, :, f] += x_zone * dZ[i, h, w, f]
 
-    return dx, dW, db
+    if padding == "same":
+        dA = dx[:, ph:-ph, pw:-pw, :]
+    else:
+        dA = dx
+
+    return dA, dW, db
