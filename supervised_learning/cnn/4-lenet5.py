@@ -17,7 +17,7 @@ def lenet5(x, y):
         Model:
             * Convolutional layer with 6 kernels of shape 5x5 with same padding
             * Max pooling layer with kernels of shape 2x2 with 2x2 strides
-            * Convolutional layer with 16 kernels of shape 5x5 with valid padding
+            * Convolutional layer with 16 kernels, shape 5x5 with valid padding
             * Max pooling layer with kernels of shape 2x2 with 2x2 strides
             * Fully connected layer with 120 nodes
             * Fully connected layer with 84 nodes
@@ -38,12 +38,15 @@ def lenet5(x, y):
     conv1 = tf.layers.Conv2D(filters=6,
                              kernel_size=5,
                              padding='same',
+                             kernel_initializer=initializer,
                              activation='relu')(x)
     pool1 = tf.layers.MaxPooling2D(pool_size=2,
                                    strides=2)(conv1)
     conv2 = tf.layers.Conv2D(filters=16,
                              kernel_size=5,
-                             padding='valid')(pool1)
+                             padding='valid',
+                             kernel_initializer=initializer,
+                             activation='relu')(pool1)
     pool2 = tf.layers.MaxPooling2D(pool_size=2,
                                    strides=2)(conv2)
     # flatten layers to convert tensor multidim in vector unidirectional
@@ -54,20 +57,21 @@ def lenet5(x, y):
     full2 = tf.layers.Dense(84,
                             activation='relu',
                             kernel_initializer=initializer)(full1)
-    logits = tf.layers.Dense(10,
+    output = tf.layers.Dense(10,
+                             activation=None,
                              kernel_initializer=initializer)(full2)
-    softmax = tf.nn.softmax(logits)
+    softmax = tf.nn.softmax(output)
 
     # calculate loss
     loss = tf.losses.softmax_cross_entropy(
         onehot_labels=y,
-        logits=logits)
+        logits=output)
 
     # Adam optimizer
     train_Adam = tf.train.AdamOptimizer().minimize(loss)
 
     # comparison of indice's max value for y and logits
-    y_pred = tf.argmax(softmax, axis=1)
+    y_pred = tf.argmax(output, axis=1)
     y_true = tf.argmax(y, axis=1)
     correct_prediction = tf.equal(y_pred, y_true)
 
@@ -78,8 +82,3 @@ def lenet5(x, y):
     accuracy = tf.reduce_mean(correct_prediction)
 
     return softmax, train_Adam, loss, accuracy
-
-
-
-
-
