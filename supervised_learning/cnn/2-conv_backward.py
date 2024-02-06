@@ -36,19 +36,19 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
         # no padding
         ph, pw = 0, 0
     elif padding == 'same':
-        ph = int((((h_prev - 1) * sh + kh - h_prev) / 2))
-        pw = int((((w_prev - 1) * sw + kw - w_prev) / 2))
+        ph = int((((h_prev - 1) * sh + kh - h_prev) / 2 + 0.5))
+        pw = int((((w_prev - 1) * sw + kw - w_prev) / 2 + 0.5))
 
     # apply padding
-    x_pad = np.pad(A_prev,
-                   [(0, 0), (ph, ph), (pw, pw), (0, 0)],
-                   mode='constant')
+    A_prev_pad = np.pad(A_prev,
+                        [(0, 0), (ph, ph), (pw, pw), (0, 0)],
+                        mode='constant')
 
     # calcul of db
     db = np.sum(dZ, axis=(0, 1, 2), keepdims=True)
 
     # initialize shape for dx and dW
-    dx = np.zeros(shape=x_pad.shape)
+    dA_pad = np.zeros(shape=A_prev_pad.shape)
     dW = np.zeros(shape=W.shape)
 
     # output
@@ -64,18 +64,16 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
                     h_start = w * sw
                     h_end = h_start + kw
 
-                    # extract region form x_pad
-                    x_zone = x_pad[i, v_start:v_end,
-                                   h_start:h_end, :]
-
                     # update derivative
-                    dx[i, v_start:v_end, h_start:h_end, :] \
+                    dA_pad[i, v_start:v_end, h_start:h_end, :]\
                         += W[:, :, :, f] * dZ[i, h, w, f]
-                    dW[:, :, :, f] += x_zone * dZ[i, h, w, f]
+                    dW[:, :, :, f] += (A_prev_pad[i, v_start:v_end,
+                                                  h_start:h_end, :]
+                                       * dZ[i, h, w, f])
 
     if padding == "same":
-        dA = dx[:, ph:-ph, pw:-pw, :]
+        dA = dA_pad[:, ph:-ph, pw:-pw, :]
     else:
-        dA = dx
+        dA = dA_pad
 
     return dA, dW, db
