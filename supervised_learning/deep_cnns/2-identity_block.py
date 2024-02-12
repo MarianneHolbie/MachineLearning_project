@@ -32,7 +32,7 @@ def identity_block(A_prev, filters):
                             strides=(1, 1),
                             padding='same')(A_prev)
     batchN1 = K.layers.BatchNormalization(axis=3)(conv1)
-    relu1 = K.layers.Activation(activation='relu')(batchN1)
+    relu1 = K.layers.ReLU()(batchN1)
 
     # second layer
     conv2 = K.layers.Conv2D(F3,
@@ -42,7 +42,7 @@ def identity_block(A_prev, filters):
                             padding='same')(relu1)
 
     batchN2 = K.layers.BatchNormalization(axis=3)(conv2)
-    relu2 = K.layers.Activation(activation='relu')(batchN2)
+    relu2 = K.layers.ReLU()(batchN2)
 
     # third layer
     conv3 = K.layers.Conv2D(F12,
@@ -51,7 +51,7 @@ def identity_block(A_prev, filters):
                             strides=(1, 1),
                             padding='same')(relu2)
     batchN3 = K.layers.BatchNormalization(axis=3)(conv3)
-    relu3 = K.layers.Activation(activation='relu')(batchN3)
+    relu3 = K.layers.ReLU()(batchN3)
 
     # add input (Residual Network)
     resnet = K.layers.add([relu3, A_prev])
