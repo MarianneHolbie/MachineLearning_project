@@ -56,14 +56,16 @@ def projection_block(A_prev, filters, s=2):
                             padding='same')(relu2)
     batchN3 = K.layers.BatchNormalization(axis=3)(conv3)
 
-    # add ResNet
+    # shortcut way
     shortcut_input = K.layers.Conv2D(F12,
                                      kernel_initializer=initializer,
                                      kernel_size=(1, 1),
                                      strides=s,
                                      padding='same')(A_prev)
     batchN4 = K.layers.BatchNormalization(axis=3)(shortcut_input)
-    resnet = K.layers.add([batchN4, batchN3])
+
+    # add ResNet
+    resnet = K.layers.add([batchN3, batchN4])
 
     # ReLU
     output = K.layers.Activation(activation='relu')(resnet)
