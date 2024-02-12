@@ -25,18 +25,21 @@ def identity_block(A_prev, filters):
     # filters extraction
     F11, F3, F12 = filters
 
+    # initializer
+    initializer = K.initializers.HeNormal()
+
     # First layer
     conv1 = K.layers.Conv2D(F11,
-                            kernel_initializer='random_normal',
+                            kernel_initializer=initializer,
                             kernel_size=(1, 1),
                             strides=(1, 1),
                             padding='same')(A_prev)
     batchN1 = K.layers.BatchNormalization(axis=3)(conv1)
-    relu1 = K.layers.ReLU()(batchN1)
+    relu1 = K.layers.Activation(activation='relu')(batchN1)
 
     # second layer
     conv2 = K.layers.Conv2D(F3,
-                            kernel_initializer='random_normal',
+                            kernel_initializer=initializer,
                             kernel_size=(3, 3),
                             strides=(1, 1),
                             padding='same')(relu1)
@@ -47,7 +50,7 @@ def identity_block(A_prev, filters):
     # third layer
     conv3 = K.layers.Conv2D(F12,
                             kernel_size=(1, 1),
-                            kernel_initializer='random_normal',
+                            kernel_initializer=initializer,
                             strides=(1, 1),
                             padding='same')(relu2)
     batchN3 = K.layers.BatchNormalization(axis=3)(conv3)
