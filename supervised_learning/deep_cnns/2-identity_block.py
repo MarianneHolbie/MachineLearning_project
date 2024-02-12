@@ -54,10 +54,9 @@ def identity_block(A_prev, filters):
                             strides=(1, 1),
                             padding='same')(relu2)
     batchN3 = K.layers.BatchNormalization(axis=3)(conv3)
-    relu3 = K.layers.Activation(activation='relu')(batchN3)
 
     # add input (Residual Network)
-    resnet = K.layers.add([relu3, A_prev])
+    resnet = K.layers.add([batchN3, A_prev])
 
     # last activation
     output = K.layers.Activation(activation='relu')(resnet)
