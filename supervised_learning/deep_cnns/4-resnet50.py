@@ -28,7 +28,7 @@ def resnet50():
                             padding='same',
                             kernel_initializer=initializer)(inputs)
     batchN1 = K.layers.BatchNormalization(axis=3)(conv1)
-    relu1 = K.layers.Activation(activation='relu')(batchN1)
+    relu1 = K.layers.ReLU()(batchN1)
 
     # conv2_x
     pool1 = K.layers.MaxPooling2D(pool_size=(3, 3),
