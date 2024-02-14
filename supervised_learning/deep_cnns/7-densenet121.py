@@ -54,10 +54,10 @@ def densenet121(growth_rate=32, compression=1.0):
     db4, nbr_filter = dense_block(trans_l3, nbr_filter, growth_rate, 16)
 
     # fully connected layer
-    pool_global = K.layers.AveragePooling2D(pool_size=(7, 7))(db4)
+    pool_g = K.layers.AveragePooling2D(pool_size=(7, 7))(db4)
     full_connected = K.layers.Dense(units=1000,
                                     activation="softmax",
-                                    kernel_initializer=initializer)(pool_global)
+                                    kernel_initializer=initializer)(pool_g)
 
     model = K.models.Model(input_data, full_connected)
 
