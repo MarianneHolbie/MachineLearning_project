@@ -60,7 +60,7 @@ def resnet50():
     # Avr pool
     pool2 = K.layers.AveragePooling2D(pool_size=(7, 7),
                                       strides=(1, 1),
-                                      padding='same')(id13)
+                                      padding='valid')(id13)
 
     # Fully connected
     output = K.layers.Dense(units=1000,
