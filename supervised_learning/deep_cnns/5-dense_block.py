@@ -25,7 +25,7 @@ def dense_block(X, nb_filters, growth_rate, layers):
     nbr_filter_output = nb_filters
 
     # loop for Dense block
-    for l in range(layers):
+    for layer in range(layers):
         # bottleneck layer
         batchN1 = K.layers.BatchNormalization()(input_x)
         relu1 = K.layers.Activation(activation='relu')(batchN1)
