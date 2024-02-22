@@ -48,3 +48,7 @@ Convolutional Neural Network : layer, pooling, forward/backward propagation, bui
 ### [deep_cnns](supervised_learning/deep_cnns)
 
 Deep Convolutional Neural Network : Inception block, ResNet-50, DenseNet-121, ...
+
+## [transfer_learning](supervised_learning/transfer_learning)
+
+Transfer learning with Keras.
