@@ -69,14 +69,12 @@ The **discussion** section interprets the findings, elucidating the implications
 the experiment results and offering insights into the efficacy of transfer learning
 in enhancing model performance for CIFAR-10 classification tasks. 
 
-**Acknowledgments** express gratitude to those who contributed to the project,
-while the literature cited section acknowledges prior research and works referenced
-throughout the experimentation process. 
 
-Finally, optional appendices provide additional information or supplementary materials to enrich the reader's 
-understanding of the experimental process. 
-
-Throughout this blog post, I aim to provide a comprehensive overview of the 
+Throughout this [blog post](https://medium.com/@marianne.arrue/embarking-on-the-transfer-learning-journey-a-keras-adventure-with-cifar-10-332be2656ac3), I aim to provide a comprehensive overview of the 
 transfer learning approach employed, offering insights, examples, and visual aids to
 enhance comprehension and facilitate knowledge dissemination within the deep learning
 community.
+
+### Jupyter NoteBook
+[Fine_tunning.ipynb](./Fine_tunning.ipynb) : JupyterNotebook that contains the code for fine tunning the model.
+[Process_TransferLearning.ipynb](./Process_TransferLearning.ipynb) : JupyterNotebook that contains the code for the process of transfer learning.
