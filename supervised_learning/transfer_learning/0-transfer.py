@@ -19,8 +19,8 @@ def preprocess_data(X, Y):
             X_p: ndarray containing preprocessed X
             Y_p: ndarray containing preprocessed Y
     """
-    X = tf.keras.applications.inception_resnet_v2.preprocess_input(X)
-    y = tf.keras.utils.to_categorical(Y, 10)
+    X = K.applications.inception_resnet_v2.preprocess_input(X)
+    y = K.utils.to_categorical(Y, 10)
     return X, y
 
 
@@ -33,9 +33,9 @@ if __name__ == "__main__":
     X_test, y_test = preprocess_data(X_test, y_test)
 
     # create model
-    base_model = K.applications.Xception(weights='imagenet',
-                                         include_top=False,
-                                         input_shape=(224, 224, 3))
+    base_model = K.applications.InceptionResNetV2(weights='imagenet',
+                                                  include_top=False,
+                                                  input_shape=(224, 224, 3))
 
     # input resizing
     inputs = K.Input(shape=(32, 32, 3))
