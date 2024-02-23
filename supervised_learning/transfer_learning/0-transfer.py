@@ -35,7 +35,7 @@ if __name__ == "__main__":
     # create model
     base_model = K.applications.InceptionResNetV2(weights='imagenet',
                                                   include_top=False,
-                                                  input_shape=(224, 224, 3))
+                                                  input_shape=(299, 299, 3))
 
     # input resizing
     inputs = K.Input(shape=(32, 32, 3))
