@@ -16,10 +16,13 @@ class Yolo:
             Class constructor of Yolo class
 
             :param model_path: path where Darknet Keras model is stored
-            :param classes_path:path where list of class names, in order of index
-            :param class_t: float, box score threshold for initial filtering step
+            :param classes_path:path where list of class names,
+                in order of index
+            :param class_t: float, box score threshold
+                for initial filtering step
             :param nms_t: float, IOU threshold for non-max suppression
-            :param anchors: ndarray, shape(outputs, anchor_boxes, 2) all anchor boxes
+            :param anchors: ndarray, shape(outputs, anchor_boxes, 2)
+                all anchor boxes
                 outputs: number of outputs (prediction) made by Darknet model
                 anchor_boxes: number of anchor boxes used for each prediction
                 2: [anchor_box_width, anchor_box_height]
@@ -40,21 +43,27 @@ class Yolo:
             Function to process outputs
 
         :param outputs: list of ndarray, predictions from a single image
-                each output, shape(grid_height, grid_width, anchor_boxes, 4+1+classes)
-                grid_height, grid_width: height and width of grid used for the output
+                each output,
+                shape(grid_height, grid_width, anchor_boxes, 4+1+classes)
+                grid_height, grid_width: height and width of grid
+                 used for the output
                 anchor_boxes: number of anchor boxes used
                 4 => (t_x, t_y, t_w, t_h)
                 1 => box_confidence
                 classes => classes probabilities for all classes
-        :param image_size: ndarray, image's original size [image_height, image_width]
+        :param image_size: ndarray,
+               image's original size [image_height, image_width]
 
         :return: tuple (boxes, box_confidences, box_class_probs):
-                boxes: list of ndarrays, shape(grid_height, grid_width, anchor_boxes, 4)
+                boxes: list of ndarrays,
+                       shape(grid_height, grid_width, anchor_boxes, 4)
                         processed boundary boxes for each output
                         4 => (x1,y1, x2, y2)
-                boxe_confidences: list ndarray, shape(grid_height, grid_width, anchor_boxes, 1)
+                boxe_confidences: list ndarray,
+                    shape(grid_height, grid_width, anchor_boxes, 1)
                     boxe confidences for each output
-                box_class_probs: list ndarray, shape(grid_height, grid_width, anchor_boxes, classes)
+                box_class_probs: list ndarray,
+                    shape(grid_height, grid_width, anchor_boxes, classes)
                     box's class probabilities for each output
         """
         image_height, image_width = image_size
