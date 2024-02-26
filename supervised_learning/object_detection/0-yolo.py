@@ -2,7 +2,7 @@
 """
     Initialize Yolo
 """
-import tensorflow.keras as K
+import tensorflow as tf
 
 
 class Yolo:
@@ -26,7 +26,7 @@ class Yolo:
 
             :return:
         """
-        self.model = K.models.load_model(model_path)
+        self.model = tf.keras.models.load_model(model_path)
         self.class_names = []
         with open(classes_path, 'r') as f:
             for line in f:
