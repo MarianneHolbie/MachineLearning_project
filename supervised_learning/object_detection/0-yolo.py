@@ -5,33 +5,6 @@
 import tensorflow.keras as K
 
 
-def load_model(model_path):
-    """
-        function to load a model
-        :param model_path: path where model can be found
-
-        :return: model
-    """
-    return K.models.load_model(model_path)
-
-
-def extract_class(classes_path):
-    """
-        function to extract list of class from text file
-
-        :param classes_path: path where text file containing classes
-
-        :return: list of classes
-    """
-    classes_name = []
-    with open(classes_path, 'r') as f:
-        for line in f:
-            line = line.strip()
-            classes_name.append(line)
-
-    return classes_name
-
-
 class Yolo:
     """
         Class Yolo
@@ -53,8 +26,12 @@ class Yolo:
 
             :return:
         """
-        self.model = load_model(model_path)
-        self.class_names = extract_class(classes_path)
+        self.model = K.models.load_model(model_path)
+        self.class_names = []
+        with open(classes_path, 'r') as f:
+            for line in f:
+                line = line.strip()
+                self.class_names.append(line)
         self.class_t = class_t
         self.nms_t = nms_t
         self.anchors = anchors
