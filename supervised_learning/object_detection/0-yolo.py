@@ -7,14 +7,13 @@ import tensorflow as tf
 
 class Yolo:
     """
-        Class Yolo
+        Class Yolo uses the Yolo v3 algorithm to perform object detection
     """
 
     def __init__(self, model_path, classes_path, class_t, nms_t, anchors):
         """
-            Initialize Class Yolo uses Yolo v3 algorithm
+            Class constructor of Yolo class
 
-            :param self:
             :param model_path: path where Darknet Keras model is stored
             :param classes_path:path where list of class names, in order of index
             :param class_t: float, box score threshold for initial filtering step
@@ -24,7 +23,6 @@ class Yolo:
                 anchor_boxes: number of anchor boxes used for each prediction
                 2: [anchor_box_width, anchor_box_height]
 
-            :return:
         """
         self.model = tf.keras.models.load_model(model_path)
         self.class_names = []
