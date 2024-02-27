@@ -66,36 +66,60 @@ class Yolo:
                     shape(grid_height, grid_width, anchor_boxes, classes)
                     box's class probabilities for each output
         """
-        image_height, image_width = image_size
 
         boxes = []
         box_confidences = []
         box_class_probs = []
-        for output in outputs:
+
+        for idx, output in enumerate(outputs):
 
             grid_height, grid_width, nbr_anchor, _ = output.shape
-            for row in range(grid_height):
-                for col in range(grid_width):
+            # Calculating the number of classes
+            num_classes = output.shape[-1] - 5
+
+            # Create an empty array to store processed boundary boxes
+            box = np.zeros(output[:, :, :, :4].shape)
+
+            for c_x in range(grid_height):
+                for c_y in range(grid_width):
                     for a in range(nbr_anchor):
-                        t_x, t_y, t_w, t_h = output[row, col, a, :4]
 
-                        anchor_width = self.anchors[a][0]
-                        anchor_height = self.anchors[a][1]
+                        t_x, t_y, t_w, t_h = output[c_x, c_y, a, :4]
+                        anchor = self.anchors[idx, a]
+                        p_w, p_h = anchor
 
-                        # absolute coordinate of box
-                        x1 = (col + tf.sigmoid(t_x)) / grid_width
-                        y1 = (row + tf.sigmoid(t_y)) / grid_height
-                        w = anchor_width * np.exp(t_w) / image_width
-                        h = anchor_height * np.exp(t_h) / image_height
+                        # sigmoid : grid scale (value between 0 and 1)
+                        # + c_x or c_y : coordinate of cells in the grid
+                        b_x = tf.sigmoid(t_x) + c_x
+                        b_y = tf.sigmoid(t_y) + c_y
+                        # exp for predicted height and width
+                        b_w = p_w * np.exp(t_w)
+                        b_h = p_h * np.exp(t_h)
 
-                        # conv in pixel
-                        x1 = (x1 - w / 2) * image_width
-                        y1 = (y1 - h / 2) * image_height
-                        x2 = (x1 + w) * image_width
-                        y2 = (y1 + h) * image_height
+                        # size of image
+                        w = image_size[1]
+                        h = image_size[0]
 
-                        boxes.append([x1, y1, x2, y2])
-                        box_confidences.append(output[row, col, a, 4])
-                        box_class_probs.append(output[row, col, a, 5:])
+                        # conv in pixel : absolute coordinate
+                        x1 = (b_x - b_w / 2) * w
+                        y1 = (b_y - b_h / 2) * h
+                        x2 = (b_w / 2 + b_x) * w
+                        y2 = (b_h / 2 + b_y) * h
 
-        return (boxes, box_confidences, box_class_probs)
+                        # Update box array with box coordinates and dimensions
+                        box[c_x, c_y, a, 0] = x1
+                        box[c_x, c_y, a, 1] = y1
+                        box[c_x, c_y, a, 2] = x2
+                        box[c_x, c_y, a, 3] = y2
+                        boxes.append(box.copy())
+
+                        confidences = output[:, :, :, 4:5]
+                        sigmoid_confidence = 1 / (1 + np.exp(-confidences))
+                        class_probs = output[:, :, :, 5:]
+                        sigmoid_class_probs = 1 / (1 + np.exp(-class_probs))
+
+                        box_confidences.append(sigmoid_confidence)
+                        box_class_probs.append(sigmoid_class_probs)
+
+
+        return boxes, box_confidences, box_class_probs
