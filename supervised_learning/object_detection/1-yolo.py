@@ -86,7 +86,8 @@ class Yolo:
             t_h = output[:, :, :, 3]
 
             # grid coordinate
-            grid_x, grid_y = np.meshgrid(np.arange(grid_width), np.arange(grid_height))
+            grid_x, grid_y = np.meshgrid(np.arange(grid_width),
+                                         np.arange(grid_height))
 
             # Repeat grid coordinate for each anchor box
             grid_x = np.expand_dims(grid_x, axis=-1)
