@@ -105,11 +105,13 @@ class Yolo:
 
             # sigmoid : grid scale (value between 0 and 1)
             # + c_x or c_y : coordinate of cells in the grid
-            b_x = (tf.sigmoid(t_x) + c_x) / grid_width
-            b_y = (tf.sigmoid(t_y) + c_y) / grid_height
+            b_x = (tf.sigmoid(t_x) + c_x)
+            b_y = (tf.sigmoid(t_y) + c_y)
             # exp for predicted height and width
             b_w = p_w * np.exp(t_w)
+
             b_h = p_h * np.exp(t_h)
+
 
             # size of image
             w = image_size[1]
