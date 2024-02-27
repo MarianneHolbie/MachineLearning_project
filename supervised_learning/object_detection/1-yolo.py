@@ -66,59 +66,75 @@ class Yolo:
                     shape(grid_height, grid_width, anchor_boxes, classes)
                     box's class probabilities for each output
         """
+        # extract image size
+        image_height, image_height = image_size
 
         boxes = []
         box_confidences = []
         box_class_probs = []
 
+        # process for each output
         for idx, output in enumerate(outputs):
 
+            # extract height, width, number of anchor box for current output
             grid_height, grid_width, nbr_anchor, _ = output.shape
-            # Calculating the number of classes
-            num_classes = output.shape[-1] - 5
 
-            # Create an empty array to store processed boundary boxes
-            box = np.zeros(output[:, :, :, :4].shape)
+            # extract coordinate of output NN
+            t_x = output[:, :, :, 0]
+            t_y = output[:, :, :, 1]
+            t_w = output[:, :, :, 2]
+            t_h = output[:, :, :, 3]
 
-            for c_x in range(grid_height):
-                for c_y in range(grid_width):
-                    for a in range(nbr_anchor):
+            # create horizontal coordinates of cells in a grid
+            # 1. create sequence representing horizontal indices of cells
+            # in a row of the grid
+            c_x = np.arange(grid_width)
+            # 2. repeat this sequence to cover all rows in the grid
+            c_x = np.tile(c_x, grid_height)
+            # 3. reshape c_x in 3D array representing grid cells
+            c_x = c_x.reshape(grid_height, grid_width, 1)
 
-                        t_x, t_y, t_w, t_h = output[c_x, c_y, a, :4]
-                        anchor = self.anchors[idx, a]
-                        p_w, p_h = anchor
+            # create vertical coordinates of cells in a grid
+            c_y = np.arange(grid_height)
+            c_y = np.tile(c_y, grid_width)
+            c_y = c_y.reshape(grid_height, grid_width, 1)
 
-                        # sigmoid : grid scale (value between 0 and 1)
-                        # + c_x or c_y : coordinate of cells in the grid
-                        b_x = tf.sigmoid(t_x) + c_x
-                        b_y = tf.sigmoid(t_y) + c_y
-                        # exp for predicted height and width
-                        b_w = p_w * np.exp(t_w)
-                        b_h = p_h * np.exp(t_h)
+            # extract anchor_box_width, anchor_box_height
+            p_w = self.anchors[idx, :, 0]
+            p_h = self.anchors[idx, :, 1]
 
-                        # size of image
-                        w = image_size[1]
-                        h = image_size[0]
+            # sigmoid : grid scale (value between 0 and 1)
+            # + c_x or c_y : coordinate of cells in the grid
+            b_x = (tf.sigmoid(t_x) + c_x) / grid_width
+            b_y = (tf.sigmoid(t_y) + c_y) / grid_height
+            # exp for predicted height and width
+            b_w = p_w * np.exp(t_w)
+            b_h = p_h * np.exp(t_h)
 
-                        # conv in pixel : absolute coordinate
-                        x1 = (b_x - b_w / 2) * w
-                        y1 = (b_y - b_h / 2) * h
-                        x2 = (b_w / 2 + b_x) * w
-                        y2 = (b_h / 2 + b_y) * h
+            # size of image
+            w = image_size[1]
+            h = image_size[0]
 
-                        # Update box array with box coordinates and dimensions
-                        box[c_x, c_y, a, 0] = x1
-                        box[c_x, c_y, a, 1] = y1
-                        box[c_x, c_y, a, 2] = x2
-                        box[c_x, c_y, a, 3] = y2
-                        boxes.append(box.copy())
+            # conv in pixel : absolute coordinate
+            x1 = (b_x - b_w / 2) * w
+            y1 = (b_y - b_h / 2) * h
+            x2 = (b_w / 2 + b_x) * w
+            y2 = (b_h / 2 + b_y) * h
 
-                        confidences = output[:, :, :, 4:5]
-                        sigmoid_confidence = 1 / (1 + np.exp(-confidences))
-                        class_probs = output[:, :, :, 5:]
-                        sigmoid_class_probs = 1 / (1 + np.exp(-class_probs))
+            # Update box array with box coordinates and dimensions
+            box = np.zeros((grid_height, grid_width, nbr_anchor, 4))
+            box[:, :, :, 0] = x1
+            box[:, :, :, 1] = y1
+            box[:, :, :, 2] = x2
+            box[:, :, :, 3] = y2
+            boxes.append(box)
 
-                        box_confidences.append(sigmoid_confidence)
-                        box_class_probs.append(sigmoid_class_probs)
+            confidences = output[:, :, :, 4:5]
+            sigmoid_confidence = 1 / (1 + np.exp(-confidences))
+            class_probs = output[:, :, :, 5:]
+            sigmoid_class_probs = 1 / (1 + np.exp(-class_probs))
+
+            box_confidences.append(sigmoid_confidence)
+            box_class_probs.append(sigmoid_class_probs)
 
         return boxes, box_confidences, box_class_probs
