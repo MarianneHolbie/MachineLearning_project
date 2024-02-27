@@ -121,5 +121,4 @@ class Yolo:
                         box_confidences.append(sigmoid_confidence)
                         box_class_probs.append(sigmoid_class_probs)
 
-
         return boxes, box_confidences, box_class_probs
