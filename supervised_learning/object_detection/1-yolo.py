@@ -85,19 +85,12 @@ class Yolo:
             t_w = output[:, :, :, 2]
             t_h = output[:, :, :, 3]
 
-            # create horizontal coordinates of cells in a grid
-            # 1. create sequence representing horizontal indices of cells
-            # in a row of the grid
-            c_x = np.arange(grid_width)
-            # 2. repeat this sequence to cover all rows in the grid
-            c_x = np.tile(c_x, grid_height)
-            # 3. reshape c_x in 3D array representing grid cells
-            c_x = c_x.reshape(grid_height, grid_width, 1)
+            # grid coordinate
+            grid_x, grid_y = np.meshgrid(np.arange(grid_width), np.arange(grid_height))
 
-            # create vertical coordinates of cells in a grid
-            c_y = np.arange(grid_height)
-            c_y = np.tile(c_y, grid_width)
-            c_y = c_y.reshape(grid_height, grid_width, 1)
+            # Repeat grid coordinate for each anchor box
+            grid_x = np.expand_dims(grid_x, axis=-1)
+            grid_y = np.expand_dims(grid_y, axis=-1)
 
             # extract anchor_box_width, anchor_box_height
             p_w = self.anchors[idx, :, 0]
@@ -105,23 +98,22 @@ class Yolo:
 
             # sigmoid : grid scale (value between 0 and 1)
             # + c_x or c_y : coordinate of cells in the grid
-            b_x = (tf.sigmoid(t_x) + c_x)
-            b_y = (tf.sigmoid(t_y) + c_y)
+            b_x = (1.0 / (1.0 + np.exp(-t_x)) + grid_x) / grid_width
+            b_y = (1.0 / (1.0 + np.exp(-t_y)) + grid_y) / grid_height
             # exp for predicted height and width
             b_w = p_w * np.exp(t_w)
-
+            b_w /= grid_width
             b_h = p_h * np.exp(t_h)
+            b_h /= grid_height
 
-
-            # size of image
-            w = image_size[1]
-            h = image_size[0]
+            # size image
+            image_width, image_height = image_size
 
             # conv in pixel : absolute coordinate
-            x1 = (b_x - b_w / 2) * w
-            y1 = (b_y - b_h / 2) * h
-            x2 = (b_w / 2 + b_x) * w
-            y2 = (b_h / 2 + b_y) * h
+            x1 = (b_x - b_w / 2) * image_width
+            y1 = (b_y - b_h / 2) * image_height
+            x2 = (b_w / 2 + b_x) * image_width
+            y2 = (b_h / 2 + b_y) * image_height
 
             # Update box array with box coordinates and dimensions
             box = np.zeros((grid_height, grid_width, nbr_anchor, 4))
