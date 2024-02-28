@@ -102,8 +102,8 @@ class Yolo:
 
             # sigmoid : grid scale (value between 0 and 1)
             # + c_x or c_y : coordinate of cells in the grid
-            b_x = (1.0 / (1.0 + np.exp(-t_x))) / grid_width + grid_x
-            b_y = (1.0 / (1.0 + np.exp(-t_y))) / grid_height + grid_y
+            b_x = ((1.0 / (1.0 + np.exp(-t_x))) + grid_x) / grid_width
+            b_y = ((1.0 / (1.0 + np.exp(-t_y))) + grid_y) / grid_height
             # exp for predicted height and width
             b_w = p_w * np.exp(t_w)
             b_w /= self.model.input.shape[1].value
