@@ -97,24 +97,24 @@ class Yolo:
             p_w = self.anchors[idx, :, 0]
             p_h = self.anchors[idx, :, 1]
 
-            # sigmoid : grid scale (value between 0 and 1)
-            # + c_x or c_y : coordinate of cells in the grid
-            b_x = (1.0 / (1.0 + np.exp(-t_x)) + grid_x) / grid_width
-            b_y = (1.0 / (1.0 + np.exp(-t_y)) + grid_y) / grid_height
-            # exp for predicted height and width
-            b_w = p_w * np.exp(t_w)
-            b_w /= grid_width
-            b_h = p_h * np.exp(t_h)
-            b_h /= grid_height
-
             # size image
             image_width, image_height = image_size
+
+            # sigmoid : grid scale (value between 0 and 1)
+            # + c_x or c_y : coordinate of cells in the grid
+            b_x = (1.0 / (1.0 + np.exp(-t_x))) / grid_width
+            b_y = (1.0 / (1.0 + np.exp(-t_y))) / grid_height
+            # exp for predicted height and width
+            b_w = p_w * np.exp(t_w)
+            b_w /= image_width
+            b_h = p_h * np.exp(t_h)
+            b_h /= image_height
 
             # conv in pixel : absolute coordinate
             x1 = (b_x - b_w / 2) * image_width
             y1 = (b_y - b_h / 2) * image_height
-            x2 = (b_w / 2 + b_x) * image_width
-            y2 = (b_h / 2 + b_y) * image_height
+            x2 = x1 + b_w * image_width
+            y2 = y1 + b_h * image_height
 
             # Update box array with box coordinates and dimensions
             box = np.zeros((grid_height, grid_width, nbr_anchor, 4))
