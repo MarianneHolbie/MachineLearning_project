@@ -98,7 +98,7 @@ class Yolo:
             p_h = self.anchors[idx, :, 1]
 
             # size image
-            image_width, image_height = image_size
+            image_height, image_width = image_size
 
             # sigmoid : grid scale (value between 0 and 1)
             # + c_x or c_y : coordinate of cells in the grid
