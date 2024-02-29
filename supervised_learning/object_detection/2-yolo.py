@@ -106,9 +106,9 @@ class Yolo:
             b_y = ((1.0 / (1.0 + np.exp(-t_y))) + grid_y) / grid_height
             # exp for predicted height and width
             b_w = p_w * np.exp(t_w)
-            b_w /= self.model.input.shape[1].value
+            b_w /= self.model.input.shape[1]
             b_h = p_h * np.exp(t_h)
-            b_h /= self.model.input.shape[2].value
+            b_h /= self.model.input.shape[2]
 
             # conv in pixel : absolute coordinate
             x1 = (b_x - b_w / 2) * image_width
@@ -138,11 +138,14 @@ class Yolo:
         """
             Public method to filter boxes of preprocess method
 
-        :param boxes: list of ndarray, shape(grid_height, grid_width, anchor_boxes, 4)
+        :param boxes: list of ndarray,
+              shape(grid_height, grid_width, anchor_boxes, 4)
              processed boundary boxes for each output
-        :param box_confidences: list of ndarray, shape(grid_height, grid_width, anchor_boxes, 1)
+        :param box_confidences: list of ndarray,
+            shape(grid_height, grid_width, anchor_boxes, 1)
             processed box confidences for each output
-        :param box_class_probs: list of ndarray, shape(grid_height, grid_width, anchor_boxes, classes)
+        :param box_class_probs: list of ndarray,
+            shape(grid_height, grid_width, anchor_boxes, classes)
             processed box class probabilities for each output
         :return: tuple of (filtered_boxes, box_classes, box_scores)
             - filtered_boxes: ndarray, shape(?, 4)
@@ -153,26 +156,26 @@ class Yolo:
                 box scores for each box in filtered_boxes
         """
 
-        filtered_boxes = []
+        # initialize with 4 col to be wompatible with mask
+        filtered_boxes = np.empty((0, 4))
         box_classes = []
         box_scores = []
 
-        # each box in boxes
         for i in range(len(boxes)):
-            # reduce dimension of box_confidence
-            filtered_confidences = np.squeeze(box_confidences[i], axis=-1)
-            # create bool mask where value >= class_t
-            mask = filtered_confidences > self.class_t
-            # add boxes where filtered_confidence > class_t
-            filtered_boxes.extend(boxes[i][mask])
-            # fin index for best prob for each bow in box_class_prob
-            max_prob = np.argmax(box_class_probs[i], axis=-1)
-            # filter with mask and add to box_classes
-            box_classes.extend(max_prob[mask])
-            # add confidence for box with required mask
-            box_scores.extend(filtered_confidences[mask])
+            # box score
+            box_score = np.multiply(box_confidences[i], box_class_probs[i])
 
-        filtered_boxes = np.array(filtered_boxes)
-        box_scores = np.array(box_scores)
+            # find box_classes with max box_scores
+            box_classes_i = np.argmax(box_score, axis=-1)
+            box_class_score = np.max(box_score, axis=-1)
+
+            # create filtering mask
+            filtering_mask = box_class_score >= self.class_t
+
+            # apply mask and concatenate boxes
+            filtered_boxes = np.concatenate((filtered_boxes,
+                                             boxes[i][filtering_mask]), axis=0)
+            box_classes.extend(box_classes_i[filtering_mask])
+            box_scores.extend(box_class_score[filtering_mask])
 
         return filtered_boxes, box_classes, box_scores
