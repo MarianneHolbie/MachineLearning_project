@@ -6,6 +6,34 @@ import tensorflow as tf
 import numpy as np
 
 
+def iou(box, boxes):
+    """
+        Execute Intersection over Union (IoU) between 2 box
+
+        :param box: ndarray, shape(4,) coordinate box1
+        :param boxes: ndarray, shape(4,), all other box
+
+        :return: float, the IoU value between the two bounding boxes
+    """
+
+    # calculate intersection of box1 and box2
+    x1 = np.maximum(box[0], boxes[:, 0])
+    y1 = np.maximum(box[1], boxes[:, 1])
+    x2 = np.maximum(box[2], boxes[:, 2])
+    y2 = np.maximum(box[3], boxes[:, 3])
+
+    # calculate inter and  Union(A,B) = A + B - Inter(A,B)
+    intersection = np.maximum(0, x2 - x1) * np.maximum(0, y2 - y1)
+    area1 = (box[2] - box[0]) * (box[3] - box[1])
+    area2 = (boxes[:, 2] - boxes[:, 0]) * (boxes[:, 3] - boxes[:, 1])
+    union = area1 + area2 - intersection
+
+    # compute score IoU
+    result = intersection / union
+
+    return result
+
+
 class Yolo:
     """
         Class Yolo uses the Yolo v3 algorithm to perform object detection
@@ -75,7 +103,6 @@ class Yolo:
 
         # process for each output
         for idx, output in enumerate(outputs):
-
             # extract height, width, number of anchor box for current output
             grid_height, grid_width, nbr_anchor, _ = output.shape
 
@@ -185,34 +212,6 @@ class Yolo:
 
         return filtered_boxes, box_classes, box_scores
 
-    def iou(self, box1, box2):
-        """
-            Execute Intersection over Union (IoU) between 2 box
-
-            :param box1: ndarray, shape(4,) coordinate box1
-            :param box2: ndarray, shape(4,), coordinate box2
-
-            :return: float, the IoU value between the two bounding boxes
-        """
-
-        # calculate intersection of box1 and box2
-        xi1 = max(box1[0], box2[0])
-        yi1 = max(box1[1], box2[1])
-        xi2 = min(box1[2], box2[2])
-        yi2 = min(box1[3], box2[3])
-        # calculate area
-        inter_area = (xi2 - xi1) * (yi2 - yi1)
-
-        # calculate union Union(A,B) = A + B - Inter(A,B)
-        box1_area = (box1[3] - box1[1]) * (box1[2] - box1[0])
-        box2_area = (box2[3] - box2[1]) * (box2[2] - box2[0])
-        union_area = (box1_area + box2_area) - inter_area
-
-        # compute score IoU
-        iou = inter_area / union_area
-
-        return iou
-
     def non_max_suppression(self, filtered_boxes, box_classes, box_scores):
         """
             method to apply Non-max Suppression
@@ -225,45 +224,53 @@ class Yolo:
             :param box_scores: ndarray, shape(?)
                 box scores for each box in filtered_boxes
 
-            :return: tuple (box_predictions, predicted_box_classes, predicted_box_scores)
+            :return: tuple (box_predictions, predicted_box_classes,
+             predicted_box_scores)
                 - box_predictions : ndarray, shape(?,4)
                     all predicted bounding boxes ordered by class and box score
                 - predicted_box_classes: ndarray, shape(?,)
-                    class number for box_predictions ordered by class and box score
+                    class number for box_predictions ordered by class and box
+                    score
                 - predicted_box_scores: ndarray, shape(?)
-                    box scores for box_predictions ordered by class and box score
+                    box scores for box_predictions ordered by class and box
+                    score
         """
         box_predictions = np.empty((0, 4))
         predicted_box_classes = np.empty((0,), dtype=int)
-        predicted_box_scores = np.empty(0, dtype=int)
+        predicted_box_scores = np.empty(0)
 
         # Iterate over each unique class
         unique_classes = np.unique(box_classes)
         for cls in unique_classes:
-            # Get indices of boxes belonging to the current class
+
+            # Get indices of boxes (idx line) belonging to the current class
             class_indices = np.where(box_classes == cls)[0]
 
             # boxes and scores for the current class
             class_boxes = filtered_boxes[class_indices]
+
             class_scores = box_scores[class_indices]
 
             # Sort boxes based on scores in descending order
             sorted_indices = np.argsort(class_scores)[::-1]
+
             class_boxes = class_boxes[sorted_indices]
+
             class_scores = class_scores[sorted_indices]
 
             # Perform non-max suppression
             picked_indices = []
-            for i in range(len(class_boxes)):
-                if i in picked_indices:
-                    continue
+            while len(sorted_indices) > 0:
+                # select idx box best score
+                i = sorted_indices[0]
                 picked_indices.append(i)
-                box = class_boxes[i]
-                for j in range(i + 1, len(class_boxes)):
-                    if j in picked_indices:
-                        continue
-                    if self.iou(box, class_boxes[j]) > self.nms_t:
-                        picked_indices.append(j)
+
+                # calculate iou
+                current_iou = iou(class_boxes[i],
+                                  class_boxes[sorted_indices[1:]])
+
+                # filter idx box IoU > nms_t
+                sorted_indices = sorted_indices[1:][current_iou <= self.nms_t]
 
             # add
             box_predictions = (np.concatenate
