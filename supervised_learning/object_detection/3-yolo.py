@@ -271,7 +271,8 @@ class Yolo:
 
                 # remove boxes and their scores that fell above the threshold
                 if len(class_boxes) > 0:
-                    class_boxes = np.delete(class_boxes, above_threshold, axis=0)
+                    class_boxes = np.delete(class_boxes, above_threshold,
+                                            axis=0)
                     class_scores = np.delete(class_scores, above_threshold)
 
         # Convert output lists to numpy arrays
