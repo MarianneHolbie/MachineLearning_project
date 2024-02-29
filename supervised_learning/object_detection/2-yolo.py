@@ -158,8 +158,8 @@ class Yolo:
 
         # initialize with 4 col to be wompatible with mask
         filtered_boxes = np.empty((0, 4))
-        box_classes = []
-        box_scores = []
+        box_classes = np.empty((0,), dtype=int)
+        box_scores = np.empty(0, dtype=int)
 
         for i in range(len(boxes)):
             # box score
@@ -175,7 +175,12 @@ class Yolo:
             # apply mask and concatenate boxes
             filtered_boxes = np.concatenate((filtered_boxes,
                                              boxes[i][filtering_mask]), axis=0)
-            box_classes.extend(box_classes_i[filtering_mask])
-            box_scores.extend(box_class_score[filtering_mask])
+            box_classes = (
+                np.concatenate((box_classes,
+                                box_classes_i[filtering_mask]),
+                               axis=0))
+            box_scores = np.concatenate((box_scores,
+                                         box_class_score[filtering_mask]),
+                                        axis=0)
 
         return filtered_boxes, box_classes, box_scores
