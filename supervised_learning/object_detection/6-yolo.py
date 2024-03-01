@@ -107,9 +107,9 @@ class Yolo:
             b_y = ((1.0 / (1.0 + np.exp(-t_y))) + grid_y) / grid_height
             # exp for predicted height and width
             b_w = p_w * np.exp(t_w)
-            b_w /= self.model.input.shape[1].value
+            b_w /= self.model.input.shape[1]
             b_h = p_h * np.exp(t_h)
-            b_h /= self.model.input.shape[2].value
+            b_h /= self.model.input.shape[2]
 
             # conv in pixel : absolute coordinate
             x1 = (b_x - b_w / 2) * image_width
@@ -386,46 +386,36 @@ class Yolo:
                 If any key besides s is pressed:
                     Closed image window without saving
         """
-        # loop to attempt press key event
-        finish = False
-        while not finish:
-            # draw each boundary box
-            for idx, box in enumerate(boxes):
-                x1, y1, x2, y2 = box
-                img = cv2.rectangle(image,
-                                    (int(x1), int(y1)),
-                                    (int(x2), int(y2)),
-                                    color=(255, 0, 0),
-                                    thickness=2
-                                    )
-                # preprocess txt
-                class_name = self.class_names[box_classes[idx]]
-                class_score = np.round(box_scores[idx], 2)
-                full_txt = class_name + ' ' + str(class_score)
-                # add text on boundary box
-                img = cv2.putText(img,
-                                  text=full_txt,
-                                  org=(int(x1), int(y1) - 5),
-                                  fontFace=0,
-                                  fontScale=0.5,
-                                  color=(0, 0, 255),
-                                  lineType=cv2.LINE_AA
-                                  )
-            # show image
-            cv2.imshow(file_name, img)
-            # wait presskey event
-            key_pressed = cv2.waitKey(0)
-            if key_pressed == ord('s'):
-                try:
-                    os.chdir("./detections")
-                except FileNotFoundError:
-                    os.makedirs("./detections")
-                    os.chdir("./detections")
+        # draw each boundary box
+        for idx, box in enumerate(boxes):
+            x1, y1, x2, y2 = box
+            cv2.rectangle(image,
+                          (int(x1), int(y1)),
+                          (int(x2), int(y2)),
+                          color=(255, 0, 0),
+                          thickness=2
+                          )
+            # preprocess txt
+            class_name = self.class_names[box_classes[idx]]
+            class_score = np.round(box_scores[idx], 2)
+            full_txt = class_name + ' ' + str(class_score)
 
-                cv2.imwrite(filename=file_name,
-                            img=img)
-                cv2.destroyAllWindows()
-                finish = True
-            else:
-                cv2.destroyAllWindows()
-                finish = True
+            # add text on boundary box
+            cv2.putText(image,
+                        text=full_txt,
+                        org=(int(x1), int(y1) - 5),
+                        fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+                        fontScale=0.5,
+                        color=(0, 0, 255),
+                        lineType=cv2.LINE_AA,
+                        thickness=1
+                        )
+        # show image
+        name_img = os.path.basename(file_name)
+        cv2.imshow(name_img, image)
+        key_pressed = cv2.waitKey(0)
+        if key_pressed == ord('s'):
+            if not os.path.exists('detections'):
+                os.makedirs('detections')
+            cv2.imwrite("detections/{}".format(name_img), image)
+        cv2.destroyAllWindows()
