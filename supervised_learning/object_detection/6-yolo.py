@@ -397,7 +397,7 @@ class Yolo:
                           )
             # preprocess txt
             class_name = self.class_names[box_classes[idx]]
-            class_score = np.round(box_scores[idx], 2)
+            class_score = "{:.2f}".format(box_scores[idx])
             full_txt = class_name + ' ' + str(class_score)
 
             # add text on boundary box
