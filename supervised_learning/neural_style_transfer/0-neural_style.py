@@ -72,11 +72,15 @@ class NST:
             h_new = 512
             w_new = (w * 512) // h
 
-        image = image / 255
+        # Normalize pixel values to be between 0 and 1
+        image = image / 255.0
 
         resized_image = tf.image.resize(image,
                                         size=[h_new, w_new],
                                         method='bicubic')
+
+        # limit pixel value between 0 and 1
+        resized_image = tf.clip_by_value(resized_image, 0, 1)
 
         tf_resize_image = tf.expand_dims(resized_image, 0)
 
