@@ -12,7 +12,8 @@ class NST:
         Class that performs tasks for neural style transfer
     """
 
-    style_layers = ['block1_conv1', 'block2_conv1', 'block3_conv1', 'block4_conv1', 'block5_conv1']
+    style_layers = ['block1_conv1', 'block2_conv1', 'block3_conv1',
+                    'block4_conv1', 'block5_conv1']
     content_layer = 'block5_conv2'
 
     def __init__(self, style_image, content_image, alpha=1e4, beta=1):
@@ -26,18 +27,21 @@ class NST:
         """
 
         if not isinstance(style_image, np.ndarray) or style_image.shape[-1] != 3:
-            raise TypeError("style_image must be a numpy.ndarray with shape (h, w, 3)")
+            raise TypeError("style_image must be a numpy.ndarray"
+                            " with shape (h, w, 3)")
         else:
             self.style_image = style_image
-        if not isinstance(content_image, np.ndarray) or content_image.shape[-1] != 3:
-            raise TypeError("style_image must be a numpy.ndarray with shape (h, w, 3)")
+        if (not isinstance(content_image, np.ndarray)
+                or content_image.shape[-1] != 3):
+            raise TypeError("content_image must be a numpy.ndarray"
+                            " with shape (h, w, 3)")
         else:
             self.content_image = content_image
-        if alpha < 0:
+        if int(alpha) < 0:
             raise TypeError("alpha must be a non-negative number")
         else:
             self.alpha = alpha
-        if beta < 0:
+        if int(beta) < 0:
             raise TypeError("beta must be a non-negative number")
         else:
             self.beta = beta
@@ -53,7 +57,8 @@ class NST:
             :return:scaled image
         """
         if not isinstance(image, np.ndarray) or image.shape[-1] != 3:
-            raise TypeError("image must be a numpy.ndarray with shape (h, w, 3)")
+            raise (TypeError
+                   ("image must be a numpy.ndarray with shape (h, w, 3)"))
 
         h, w, _ = image.shape
 
