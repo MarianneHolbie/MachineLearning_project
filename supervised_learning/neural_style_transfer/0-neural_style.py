@@ -26,7 +26,8 @@ class NST:
             :param beta: weight for style cost
         """
 
-        if not isinstance(style_image, np.ndarray) or style_image.shape[-1] != 3:
+        if (not isinstance(style_image, np.ndarray)
+                or style_image.shape[-1] != 3):
             raise TypeError("style_image must be a numpy.ndarray"
                             " with shape (h, w, 3)")
         else:
@@ -37,11 +38,11 @@ class NST:
                             " with shape (h, w, 3)")
         else:
             self.content_image = content_image
-        if int(alpha) < 0:
+        if not isinstance(alpha, (int, float)) or alpha < 0:
             raise TypeError("alpha must be a non-negative number")
         else:
             self.alpha = alpha
-        if int(beta) < 0:
+        if not isinstance(beta, (int, float)) or beta < 0:
             raise TypeError("beta must be a non-negative number")
         else:
             self.beta = beta
