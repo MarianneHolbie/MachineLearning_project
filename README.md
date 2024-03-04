@@ -56,3 +56,7 @@ Transfer learning with Keras.
 ## [object_detection](supervised_learning/object_detection)
 
 Object detection with YOLO algorithm
+
+## [neural_style_transfer](supervised_learning/neural_style_transfer)
+
+Neural Style Transfer with Tensorflow and Keras
