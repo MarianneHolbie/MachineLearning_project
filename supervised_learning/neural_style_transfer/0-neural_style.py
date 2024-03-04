@@ -67,17 +67,17 @@ class NST:
 
         if w > h:
             w_new = 512
-            h_new = (h * 512) // w
+            h_new = int((h * 512) / w)
         else:
             h_new = 512
-            w_new = (w * 512) // h
-
-        # Normalize pixel values to be between 0 and 1
-        image = tf.image.convert_image_dtype(image, tf.float32)
+            w_new = int((w * 512) / h)
 
         resized_image = tf.image.resize(image,
                                         size=[h_new, w_new],
                                         method='bicubic')
+
+        # Normalize
+        resized_image = resized_image / 255
 
         # limit pixel value between 0 and 1
         resized_image = tf.clip_by_value(resized_image, 0, 1)
