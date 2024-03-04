@@ -73,7 +73,7 @@ class NST:
             w_new = (w * 512) // h
 
         # Normalize pixel values to be between 0 and 1
-        image = image / 255.0
+        image = tf.image.convert_image_dtype(image, tf.float32)
 
         resized_image = tf.image.resize(image,
                                         size=[h_new, w_new],
