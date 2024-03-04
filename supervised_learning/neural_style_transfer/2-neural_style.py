@@ -130,6 +130,11 @@ class NST:
                 be calculated
             :return: tf.tensor, shape(1,c,c) containing gram matrix
         """
+
+        if (not isinstance(input_layer, (tf.Tensor, tf.Variable))
+                or len(input_layer.shape) != 4):
+            raise TypeError("input_layer must be a tensor of rank 4")
+
         # sum of product
         # b: num of batch, i&j spatial coordinate, c channel
         result = tf.linalg.einsum('bijc,bijd->bcd', input_layer, input_layer)
