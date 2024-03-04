@@ -97,14 +97,16 @@ class NST:
         # Keras API
         modelVGG19 = tf.keras.applications.VGG19(
             include_top=False,
-            weights='imagenet',
-            trainable=False
+            weights='imagenet'
         )
+
+        modelVGG19.trainable = False
 
         # selected layers
         selected_layers = self.style_layers + [self.content_layer]
 
-        outputs = [modelVGG19.get_layer(name).output for name in selected_layers]
+        outputs = [modelVGG19.get_layer(name).output for name
+                   in selected_layers]
 
         # construct model
         model = tf.keras.Model([modelVGG19.input], outputs)
