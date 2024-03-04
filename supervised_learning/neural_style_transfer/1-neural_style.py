@@ -49,7 +49,8 @@ class NST:
         else:
             self.beta = beta
 
-        self.model = self.load_model()
+        self.model = None
+        self.load_model()
 
     @staticmethod
     def scale_image(image):
@@ -117,4 +118,4 @@ class NST:
         model_avg = tf.keras.models.load_model('vgg_base.h5',
                                                custom_objects=custom_objects)
 
-        return model_avg
+        self.model = model_avg
