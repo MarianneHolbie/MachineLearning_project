@@ -284,7 +284,9 @@ class NST:
                             .format(shape_content_image))
 
         # preprocess generated img
-        preprocess_generated_image = tf.keras.applications.vgg19.preprocess_input(generated_image * 255)
+        preprocess_generated_image = \
+            (tf.keras.applications.
+             vgg19.preprocess_input(generated_image * 255))
 
         # calculate content and style for generated image
         generated_output = self.model(preprocess_generated_image)
@@ -298,4 +300,3 @@ class NST:
         J = self.alpha * J_content + self.beta * J_style
 
         return J, J_content, J_style
-
