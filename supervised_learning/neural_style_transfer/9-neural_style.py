@@ -395,7 +395,7 @@ class NST:
                 best_image = generated_image
 
             # Print step requiered
-            if step is not None and (i % step == 0) or i == iterations:
+            if step is not None and (i % step == 0 or i == iterations):
                 print("Cost at iteration {}: {}, content {}, style {}"
                       .format(i, J_total, J_content, J_style))
 
