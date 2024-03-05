@@ -371,10 +371,10 @@ class NST:
         if beta2 < 0 or beta2 > 1:
             raise ValueError("beta2 must be in the range [0, 1]")
 
-        # intiailize image
+        # intialize image
         generated_image = tf.Variable(self.content_image)
 
-        # intiailize best cost and best image
+        # intialize best cost and best image
         best_cost = float('inf')
         best_image = None
 
@@ -382,7 +382,7 @@ class NST:
         optimizer = tf.optimizers.Adam(lr, beta1, beta2)
 
         # Optimization loop
-        for i in range(iterations):
+        for i in range(iterations + 1):
             # compute gradients and costs
             grads, J_total, J_content, J_style = self.compute_grads(generated_image)
 
@@ -395,16 +395,12 @@ class NST:
                 best_image = generated_image
 
             # Print step requiered
-            if step is not None and ((i + 1) % step == 0) or i == 0:
-                if i == 0:
-                    print("Cost at iteration {}: {}, content {}, style {}"
-                          .format(i, J_total, J_content, J_style))
-                else:
-                    print("Cost at iteration {}: {}, content {}, style {}"
-                          .format(i + 1, J_total, J_content, J_style))
+            if step is not None and (i % step == 0) or i == iterations:
+                print("Cost at iteration {}: {}, content {}, style {}"
+                      .format(i, J_total, J_content, J_style))
 
-        # remove sup dim + normalize
+        # remove sup dim
         best_image = best_image[0]
-        best_image = best_image.astype(float) / 255.0
+        best_image = tf.clip_by_value(best_image, 0, 1)
 
         return best_image, best_cost
