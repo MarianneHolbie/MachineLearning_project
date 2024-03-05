@@ -335,14 +335,16 @@ class NST:
 
         return grad, J_total, J_content, J_style
 
-    def generate_image(self, iterations=1000, step=None, lr=0.01, beta1=0.9, beta2=0.99):
+    def generate_image(self, iterations=1000, step=None, lr=0.01, beta1=0.9,
+                       beta2=0.99):
         """
             method to generate the neural style transfered image
             Grad descent : adam opt
 
         :param iterations: number of iterations to perform gradient descent
         :param step: None or the step print information:
-                    print Cost at iteration {i}: {J_total}, content {J_content}, style {J_style}
+                    print Cost at iteration {i}: {J_total},
+                    content {J_content}, style {J_style}
                     i is the iteration
                     J_total is the total cost
                     J_content is the content cost
@@ -356,15 +358,15 @@ class NST:
 
         if not isinstance(iterations, int):
             raise TypeError("iterations must be an integer")
-        if iterations < 0:
+        if iterations <= 0:
             raise TypeError("iterations must be positive")
         if step is not None and not isinstance(step, int):
             raise TypeError("step must be an integer")
-        if step is not None and (step < 0 or step > iterations):
+        if step is not None and (step <= 0 or step >= iterations):
             raise TypeError("step must be positive and less than iterations")
         if not isinstance(lr, (float, int)):
             raise TypeError("lr must be a number")
-        if lr < 0:
+        if lr <= 0:
             raise TypeError("lr must be positive")
         if not isinstance(beta1, float):
             raise TypeError("beta1 must be a float")
@@ -388,7 +390,8 @@ class NST:
         # Optimization loop
         for i in range(iterations + 1):
             # compute gradients and costs
-            grads, J_total, J_content, J_style = self.compute_grads(generated_image)
+            grads, J_total, J_content, J_style = (
+                self.compute_grads(generated_image))
             J_var = self.variational_cost(generated_image)
 
             # use opt
@@ -421,8 +424,10 @@ class NST:
 
         :return: variational cost
         """
+        if (not isinstance(generated_image, (tf.Tensor, tf.Variable))
+                or len(generated_image.shape) != 4):
+            raise TypeError("image must be a tensor of rank 4")
 
-        #
         variational_loss = tf.image.total_variation(generated_image)[0]
 
         return variational_loss
