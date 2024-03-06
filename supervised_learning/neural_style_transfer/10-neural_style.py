@@ -326,15 +326,15 @@ class NST:
 
         # create GradientTape context to track operations for automatic
         # differentiation.
-        with tf.GradientTape() as tape:
+        with (tf.GradientTape() as tape):
             tape.watch(generated_image)
-            J_total, J_content, J_style, J_var = self.total_cost(generated_image)
+            J, J_content, J_style, J_var = self.total_cost(generated_image)
 
         # calculate gradients of the total cost with respect to generated image
         # using gradient method of tape
-        grad = tape.gradient(J_total, generated_image)
+        grad = tape.gradient(J, generated_image)
 
-        return grad, J_total, J_content, J_style, J_var
+        return grad, J, J_content, J_style, J_var
 
     def generate_image(self, iterations=1000, step=None, lr=0.01, beta1=0.9,
                        beta2=0.99):
@@ -424,7 +424,6 @@ class NST:
 
         :return: variational cost
         """
-        print(generated_image.shape)
         if (not isinstance(generated_image, (tf.Tensor, tf.Variable))
                 or (len(generated_image.shape) != 4
                     and len(generated_image.shape) != 3)):
