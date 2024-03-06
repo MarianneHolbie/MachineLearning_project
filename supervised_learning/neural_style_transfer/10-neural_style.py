@@ -359,16 +359,16 @@ class NST:
 
         if not isinstance(iterations, int):
             raise TypeError("iterations must be an integer")
-        if iterations <= 0:
-            raise TypeError("iterations must be positive")
+        if iterations < 1:
+            raise ValueError("iterations must be positive")
         if step is not None and not isinstance(step, int):
             raise TypeError("step must be an integer")
         if step is not None and (step <= 0 or step >= iterations):
-            raise TypeError("step must be positive and less than iterations")
+            raise ValueError("step must be positive and less than iterations")
         if not isinstance(lr, (float, int)):
             raise TypeError("lr must be a number")
         if lr <= 0:
-            raise TypeError("lr must be positive")
+            raise ValueError("lr must be positive")
         if not isinstance(beta1, float):
             raise TypeError("beta1 must be a float")
         if beta1 < 0 or beta1 > 1:
