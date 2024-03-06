@@ -430,5 +430,7 @@ class NST:
             raise TypeError('image must be a tensor of rank 3 or 4')
 
         variational_loss = tf.image.total_variation(generated_image)
+        # Remove the extra dimension
+        variational_loss = tf.squeeze(variational_loss)
 
         return variational_loss
