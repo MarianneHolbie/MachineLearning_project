@@ -235,7 +235,7 @@ class NST:
             )
 
         # uniform initialization
-        weight = 1.0 / len_style_layer
+        weight = 1.0 / float(len_style_layer)
 
         cost_total = sum([weight * self.layer_style_cost(style, target)
                           for style, target
