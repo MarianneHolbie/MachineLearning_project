@@ -326,7 +326,7 @@ class NST:
 
         # create GradientTape context to track operations for automatic
         # differentiation.
-        with (tf.GradientTape() as tape):
+        with tf.GradientTape() as tape:
             tape.watch(generated_image)
             J, J_content, J_style, J_var = self.total_cost(generated_image)
 
