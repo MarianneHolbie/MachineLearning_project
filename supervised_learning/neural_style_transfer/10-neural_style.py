@@ -301,9 +301,10 @@ class NST:
 
         J_content = self.content_cost(generated_content)
         J_style = self.style_cost(generated_style)
-        J = self.alpha * J_content + self.beta * J_style
+        J_var = self.variational_cost(generated_image)
+        J = self.alpha * J_content + self.beta * J_style + self.var * J_var
 
-        return J, J_content, J_style
+        return J, J_content, J_style, J_var
 
     def compute_grads(self, generated_image):
         """
@@ -327,13 +328,13 @@ class NST:
         # differentiation.
         with tf.GradientTape() as tape:
             tape.watch(generated_image)
-            J_total, J_content, J_style = self.total_cost(generated_image)
+            J_total, J_content, J_style, J_var = self.total_cost(generated_image)
 
         # calculate gradients of the total cost with respect to generated image
         # using gradient method of tape
         grad = tape.gradient(J_total, generated_image)
 
-        return grad, J_total, J_content, J_style
+        return grad, J_total, J_content, J_style, J_var
 
     def generate_image(self, iterations=1000, step=None, lr=0.01, beta1=0.9,
                        beta2=0.99):
@@ -390,16 +391,15 @@ class NST:
         # Optimization loop
         for i in range(iterations + 1):
             # compute gradients and costs
-            grads, J_total, J_content, J_style = (
+            grads, J_total, J_content, J_style, J_var = (
                 self.compute_grads(generated_image))
-            J_var = self.variational_cost(generated_image)
 
             # use opt
             optimizer.apply_gradients([(grads, generated_image)])
 
             # selected best cost and best image
             if J_total < best_cost:
-                best_cost = J_total.numpy()
+                best_cost = float(J_total)
                 best_image = generated_image
 
             # Print step requiered
@@ -424,10 +424,12 @@ class NST:
 
         :return: variational cost
         """
+        print(generated_image.shape)
         if (not isinstance(generated_image, (tf.Tensor, tf.Variable))
-                or len(generated_image.shape) != 4):
-            raise TypeError("image must be a tensor of rank 4")
+                or (len(generated_image.shape) != 4
+                    and len(generated_image.shape) != 3)):
+            raise TypeError('image must be a tensor of rank 3 or 4')
 
-        variational_loss = tf.image.total_variation(generated_image)[0]
+        variational_loss = tf.image.total_variation(generated_image)
 
         return variational_loss
