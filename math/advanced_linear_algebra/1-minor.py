@@ -46,7 +46,7 @@ def determinant(matrix):
 
     # test square format of matrix
     if len(matrix) != len(matrix[0]):
-        raise ValueError("matrix must be a square matrix")
+        raise ValueError("matrix must be a non-empty square matrix")
 
     # special case only one element
     if len(matrix) == 1:
