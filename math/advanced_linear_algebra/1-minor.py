@@ -81,7 +81,7 @@ def minor(matrix):
 
     # test square matrix
     if len(matrix) != len(matrix[0]) or len(matrix[0]) == 0:
-        raise ValueError("matrix must be a square matrix")
+        raise ValueError("matrix must be a non-empty square matrix")
 
     # special case
     if len(matrix) == 1:
@@ -106,5 +106,3 @@ def minor(matrix):
         minor_matrix.append(minor_row)
 
     return minor_matrix
-
-
