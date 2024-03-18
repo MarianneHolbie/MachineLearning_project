@@ -23,6 +23,10 @@ Probability basics, conditional probability, probability distributions, and more
 
 Concept of determinant, minor, cofactor, adjugate, eigenvalues, eigenvectors, definiteness of a matrix.
 
+### [Multivariate Probability](math/multivariate_prob)
+
+Understand the concept of multivariate probability, of joint/multivariate distribution, covariance, correlation coefficient, covariance matrix, multivariate Gaussian distribution.
+
 ## [Supervised Learning](supervised_learning)
 
 ### [Classification](supervised_learning/classification)
