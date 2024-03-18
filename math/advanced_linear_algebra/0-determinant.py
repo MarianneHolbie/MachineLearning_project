@@ -59,5 +59,6 @@ def determinant(matrix):
     # recursiv action to sum all sub_matrix
     else:
         for i in range(len(matrix[0])):
-            d += ((-1) ** i) * matrix[0][i] * determinant(sub_matrix(matrix, i))
+            d += (((-1) ** i) * matrix[0][i] *
+                  determinant(sub_matrix(matrix, i)))
         return d
