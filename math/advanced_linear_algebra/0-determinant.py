@@ -2,7 +2,6 @@
 """
     Determinant
 """
-import copy
 
 
 def sub_matrix(matrix, i):
@@ -17,10 +16,9 @@ def sub_matrix(matrix, i):
     if not matrix:
         return []
 
-    matrix2 = copy.deepcopy(matrix)
-    matrix2.pop(0)
-    for row in matrix2:
-        row.pop(i)
+    matrix2 = []
+    for row in matrix[1:]:
+        matrix2.append(row[:i] + row[i + 1:])
 
     return matrix2
 
