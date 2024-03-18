@@ -24,6 +24,9 @@ def definiteness(matrix):
     # test square matrix
     if matrix.shape[0] != matrix.shape[1]:
         return None
+    # check matrix symetric
+    if not np.array_equal(matrix, matrix.T):
+        return None
 
     eigen_val, _ = np.linalg.eig(matrix)
 
@@ -38,6 +41,6 @@ def definiteness(matrix):
     elif min_eig < 0 and max_eig < 0:
         return "Negative definite"
     elif min_eig < 0 and max_eig == 0:
-        return "Negative semi_definite"
+        return "Negative semi-definite"
     elif min_eig < 0 < max_eig:
         return "Indefinite"
