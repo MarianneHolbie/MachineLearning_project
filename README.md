@@ -19,6 +19,10 @@ Probability basics, conditional probability, probability distributions, and more
 
 ### [Convolutions and pooling](math/convolutions_and_pooling)
 
+### [Advanced Linear Algebra](math/advanced_linear_algebra)
+
+Concept of determinant, minor, cofactor, adjugate, eigenvalues, eigenvectors, definiteness of a matrix.
+
 ## [Supervised Learning](supervised_learning)
 
 ### [Classification](supervised_learning/classification)
