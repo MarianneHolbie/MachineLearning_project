@@ -1,4 +1,5 @@
 # Transfer Learning with Convolutional Neural Networks (CNNs)
+![transfer learning](TransferLearning.png)
 
 This repository contains a Python script for training a Convolutional Neural Network (CNN) using transfer learning to classify the CIFAR-10 dataset with Keras. 
 Additionally, it includes a preprocessing function to prepare the data for training.
