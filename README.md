@@ -1,5 +1,7 @@
 # holbertonschool-machine_learning
 
+In this dossier, you will find all the projects carried out during the AI-ML specialisation at Holberton School.
+
 ## [MATHS](math)
 
 ### [Linear Algebra](math/linear_algebra)
@@ -57,14 +59,14 @@ Convolutional Neural Network : layer, pooling, forward/backward propagation, bui
 
 Deep Convolutional Neural Network : Inception block, ResNet-50, DenseNet-121, ...
 
-## [transfer_learning](supervised_learning/transfer_learning)
+### [transfer_learning](supervised_learning/transfer_learning)
 
 Transfer learning with Keras.
 
-## [object_detection](supervised_learning/object_detection)
+### [object_detection](supervised_learning/object_detection)
 
 Object detection with YOLO algorithm
 
-## [neural_style_transfer](supervised_learning/neural_style_transfer)
+### [neural_style_transfer](supervised_learning/neural_style_transfer)
 
 Neural Style Transfer with Tensorflow and Keras
