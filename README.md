@@ -1,77 +1,21 @@
-# holbertonschool-machine_learning
+# Machine Learning project
 
-In this dossier, you will find all the projects carried out during the AI-ML specialisation at Holberton School.
-The 3 most successful projects so far are :
-* [Transfer Learning](supervised_learning/transfer_learning)
-* [Object detection (with Yolo)](supervised_learning/object_detection)
-* [Neural Style Transfer](supervised_learning/neural_style_transfer)
+![Placeholder Image](https://camo.githubusercontent.com/73b8527c7d8f09ba94c241533a0a8d661dc17ef312f49287ee8e6be83e878f51/68747470733a2f2f636c6f75642d33786d6a72627239702e76657263656c2e6170702f3073637265656e5f73686f745f323032302d31302d32325f61745f372e34322e35365f706d2e706e67)
 
 
-## [MATHS](math)
+In this directory, you will find advanced projects carried out during the AI-ML specialization at Holberton School
+## Supervised learning:
 
-### [Linear Algebra](math/linear_algebra)
-Introduction to Linear Algebra for Applied Machine Learning with Python (vector, matrix, transpose, dot product, determinant, inverse,...)
+   ### **[Transfer Learning](supervised_learning/transfer_learning)**
+  This repository contains a Python script for training a Convolutional Neural Network (CNN) using transfer learning to classify the CIFAR-10 dataset with Keras. Additionally, it includes a preprocessing function to prepare the data for training.
 
-### [Plotting](math/plotting)
 
-Introduction to plotting with `matplotlib` and `numpy`.
+### **[Object detection (with Yolo)](supervised_learning/object_detection)**
+  The goal of this project is to detect objects in images and videos. We will use the YOLO algorithm, which is a state-of-the-art, real-time object detection system.
 
-### [Calculus](math/calculus)
+  ### **[Neural Style Transfer](supervised_learning/neural_style_transfer)**
+  Neural Style Transfer is an optimization technique used to take three images, a content image, a style reference image (such as an artwork by a famous painter), and the input image you want to style -- and blend them together such that the input image is transformed to look like the content image, but “painted” in the style of the style image.
 
-Sum and product notation, derivative, integral and theirs rules.
-
-### [Probability](math/probability)
-
-Probability basics, conditional probability, probability distributions, and more.
-
-### [Convolutions and pooling](math/convolutions_and_pooling)
-
-### [Advanced Linear Algebra](math/advanced_linear_algebra)
-
-Concept of determinant, minor, cofactor, adjugate, eigenvalues, eigenvectors, definiteness of a matrix.
-
-### [Multivariate Probability](math/multivariate_prob)
-
-Understand the concept of multivariate probability, of joint/multivariate distribution, covariance, correlation coefficient, covariance matrix, multivariate Gaussian distribution.
-
-## [Supervised Learning](supervised_learning)
-
-### [Classification](supervised_learning/classification)
-
-Introduction to classification, logistic regression, and more.
-
-### [tensorflow](supervised_learning/tensorflow)
-
-Introduction to tensorflow.
-
-### [optimization](supervised_learning/optimization)
-
-Introduction to optimization.
-
-### [error_analysis](supervised_learning/error_analysis)
-
-Confusion matrix, type I and II error, sensitivity, specificity, presision, recall, F1 score, bias, variance...
-
-### [Keras](supervised_learning/keras)
-
-Introduction to Keras.
-
-### [cnn](supervised_learning/cnn)
-
-Convolutional Neural Network : layer, pooling, forward/backward propagation, build with Tensorflow and Keras
-
-### [deep_cnns](supervised_learning/deep_cnns)
-
-Deep Convolutional Neural Network : Inception block, ResNet-50, DenseNet-121, ...
-
-### [transfer_learning](supervised_learning/transfer_learning)
-
-Transfer learning with Keras.
-
-### [object_detection](supervised_learning/object_detection)
-
-Object detection with YOLO algorithm
-
-### [neural_style_transfer](supervised_learning/neural_style_transfer)
-
-Neural Style Transfer with Tensorflow and Keras
+--
+## License
+No license
