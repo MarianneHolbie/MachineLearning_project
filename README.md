@@ -1,6 +1,11 @@
 # holbertonschool-machine_learning
 
 In this dossier, you will find all the projects carried out during the AI-ML specialisation at Holberton School.
+The 3 most successful projects so far are :
+* [Transfer Learning](supervised_learning/transfer_learning)
+* [Object detection (with Yolo)](supervised_learning/object_detection)
+* [Neural Style Transfer](supervised_learning/neural_style_transfer)
+
 
 ## [MATHS](math)
 
