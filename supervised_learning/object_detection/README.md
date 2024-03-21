@@ -1,15 +1,37 @@
 # Object detection
+![Yolo Object Detection](Yolo.png)
 
-The goal of this project is to detect objects in images and videos. We will use the YOLO algorithm, which is a state-of-the-art, real-time object detection system.
+The goal of this project is to detect objects in images and videos. We will use the YOLO v3 algorithm, which is a state-of-the-art, real-time object detection system. The Yolo class provided allows for processing images and detecting objects within them.
 
-## Tasks
-| Task                                | Description                                                                                                                    |
-|-------------------------------------|--------------------------------------------------------------------------------------------------------------------------------|
-| [0. Initialize Yolo](0-yolo.py)     | Write a class `Yolo` that uses the Yolo v3 algorithm to perform object detection.                                              |
-| [1. Process Outputs](1-yolo.py)     | Update the class `Yolo` by adding the public method `def process_outputs(self, outputs, image_size):`.                         |
-| [2. Filter Boxes](2-yolo.py)        | Update the class `Yolo` by adding the public method `def filter_boxes(self, boxes, box_confidences, box_class_probs):`.        |
-| [3. Non-max Suppression](3-yolo.py) | Update the class `Yolo` by adding the public method `def non_max_suppression(self, filtered_boxes, box_classes, box_scores):`. |
-| [4. Load Images](4-yolo.py)         | Update the class `Yolo` by adding the public method `def load_images(folder_path):`.                                           |
-| [5. Preprocess Images](5-yolo.py)   | Update the class `Yolo` by adding the public method `def preprocess_images(self, images):`.                                    |
-| [6. Show Boxes](6-yolo.py)          | Update the class `Yolo` by adding the public method `def show_boxes(self, image, boxes, box_classes, box_scores, file_name):`. |
-| [7. Predict](7-yolo.py)             | Update the class `Yolo` by adding the public method `def predict(self, folder_path):`.                                         |
+## File
+- [yolo.h5](https://www.kaggle.com/datasets/rmoharir8396/yolo-h5-file)
+
+
+## Requierements
+- Python 3.5
+- TensorFlow version 1.12
+- Keras
+- Numpy version 1.15
+
+## Usage
+Instantiate the Yolo class by providing the model path, classes path, class threshold, NMS threshold, and anchors.
+Use the predict method to perform object detection on images within a specified folder.
+Optionally, use the show_boxes method to display the detected objects on an image.
+
+## Functions
+|Function	|Description |
+|---------|-------------|
+|`__init__`	|Constructor of the Yolo class, initializing paths to the model and classes, as well as score and non-maximal suppression (NMS) thresholds.|
+|`process_outputs`	|Processes YOLO model outputs to extract bounding boxes, box confidences, and class probabilities.|
+|`filter_boxes`	|Filters bounding boxes based on their confidence and class rankings, keeping only the most probable boxes.|
+|`non_max_suppression`	|Applies non-maximal suppression to eliminate redundant bounding boxes and group them into unique predictions.|
+|`load_images`	|Loads images from a specified folder.|
+|`preprocess_images`	|Preprocesses images to fit the YOLO model's input format.|
+|`show_boxes`	|Displays detected bounding boxes on a given image, with class names and box scores.|
+|`predict`	|Performs object detection on images in a specified folder and displays the results.|
+
+---
+### Notes
+- Ensure that the model and classes files are properly configured and located in the specified paths.
+- Adjust the class threshold and NMS threshold for optimal object detection performance.
+- Images should be properly formatted and scaled before performing object detection.
